@@ -6,6 +6,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3EFA0F9E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whoof.Api", "src\Whoof.Api\Whoof.Api.csproj", "{66D1D95D-2D58-4068-8194-E0AFA3C76BE0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whoof.Tests", "tests\Whoof.Tests\Whoof.Tests.csproj", "{BED58F9F-20BF-4D94-A529-9DC92594DABF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +15,16 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{66D1D95D-2D58-4068-8194-E0AFA3C76BE0} = {1FCD476E-6369-4778-93B5-68AC292A9176}
+		{BED58F9F-20BF-4D94-A529-9DC92594DABF} = {3EFA0F9E-57B5-4815-888C-56FEC0D00977}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{66D1D95D-2D58-4068-8194-E0AFA3C76BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{66D1D95D-2D58-4068-8194-E0AFA3C76BE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66D1D95D-2D58-4068-8194-E0AFA3C76BE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66D1D95D-2D58-4068-8194-E0AFA3C76BE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BED58F9F-20BF-4D94-A529-9DC92594DABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BED58F9F-20BF-4D94-A529-9DC92594DABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BED58F9F-20BF-4D94-A529-9DC92594DABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BED58F9F-20BF-4D94-A529-9DC92594DABF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
