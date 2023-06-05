@@ -20,8 +20,11 @@ public abstract class BaseCrudController<TEntity> : ControllerBase
     protected IValidator<TEntity> Validator { get; }
 
     [HttpGet]
-    public async Task<IActionResult> GetManyAsync([FromQuery] int pageIndex, [FromQuery] int pageSize)
+    public async Task<IActionResult> GetManyAsync([FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 20)
     {
+        if (pageSize > 50)
+            pageSize = 50;
+        
         var query = DbContext.Set<TEntity>()
             .OrderByDescending(m => m.CreatedAt);
         
