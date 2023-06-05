@@ -247,7 +247,7 @@ namespace Whoof.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pets");
+                    b.ToTable("Pets", (string)null);
                 });
 
             modelBuilder.Entity("Whoof.Api.Entities.PetVaccination", b =>
@@ -283,7 +283,7 @@ namespace Whoof.Api.Migrations
 
                     b.HasIndex("VaccineId");
 
-                    b.ToTable("PetVaccinations");
+                    b.ToTable("PetVaccinations", (string)null);
                 });
 
             modelBuilder.Entity("Whoof.Api.Entities.Vaccine", b =>
@@ -319,7 +319,7 @@ namespace Whoof.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vaccines");
+                    b.ToTable("Vaccines", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
