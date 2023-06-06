@@ -60,6 +60,8 @@ public abstract class BaseCrudController<TEntity> : ControllerBase
 
         var result = await DbContext.Set<TEntity>().AddAsync(entity);
         
+        await DbContext.SaveChangesAsync();
+        
         return CreatedAtAction("GetOne", new { id = result.Entity.Id }, result.Entity);
     }
     
@@ -81,6 +83,8 @@ public abstract class BaseCrudController<TEntity> : ControllerBase
             return NotFound();
         
         var result = DbContext.Set<TEntity>().Update(entity);
+
+        await DbContext.SaveChangesAsync();
         
         return Ok(result.Entity);
     }
@@ -95,6 +99,8 @@ public abstract class BaseCrudController<TEntity> : ControllerBase
             return NotFound();
         
         DbContext.Set<TEntity>().Remove(entity);
+        
+        await DbContext.SaveChangesAsync();
 
         return Ok();
     }
