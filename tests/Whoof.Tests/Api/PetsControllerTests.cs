@@ -72,6 +72,8 @@ public class PetsControllerTests : BaseControllerTests
             PetType = PetType.Dog,
             OwnerId = Guid.NewGuid()
         };
+
+        var beforeCount = await DbContext.Pets.CountAsync();
         
         // Act
         var response = await HttpClient.PostAsJsonAsync("v1/pets/", pet);
@@ -82,12 +84,22 @@ public class PetsControllerTests : BaseControllerTests
             .Be201Created().And
             .BeAs(pet, c => c
                 .Excluding(m => m.Id));
+
+        pet = await response.Content.ReadFromJsonAsync<Pet>();
+
+        var afterCount = await DbContext.Pets.CountAsync();
+        afterCount.Should().Be(beforeCount + 1);
+
+        DbContext.Pets.Should().Contain(m => m.Id == pet.Id);
     }
 
     [Theory]
     [MemberData(nameof(MemberData_Pets_And_ValidationErrors))]
     public async Task AddOneAsync_WithInvalidData_DoesntAdd(Pet pet, string[] expectedErrors)
     {
+        // Arrange
+        var beforeCount = await DbContext.Pets.CountAsync();
+        
         // Act
         var response = await HttpClient.PostAsJsonAsync("v1/pets/", pet);
         
@@ -101,6 +113,11 @@ public class PetsControllerTests : BaseControllerTests
         result.Type.Should().Be("VALIDATION_ERRORS");
         result.Errors.Select(m => m.ErrorMessage).Should()
             .BeEquivalentTo(expectedErrors);
+        
+        var afterCount = await DbContext.Pets.CountAsync();
+        afterCount.Should().Be(beforeCount);
+        
+        DbContext.Pets.Should().NotContain(m => m.Id == pet.Id);
     }
 
     [Fact]
@@ -119,6 +136,9 @@ public class PetsControllerTests : BaseControllerTests
             .NotBeNull().And
             .Be200Ok().And
             .BeAs(pet);
+
+        pet = DbContext.Pets.First(m => m.Id == pet.Id);
+        pet.Name.Should().Be("Updated");
     }
 
     [Fact]
@@ -179,6 +199,8 @@ public class PetsControllerTests : BaseControllerTests
         
         // Assert
         response.Should().Be200Ok();
+
+        DbContext.Pets.Should().NotContain(m => m.Id == pet.Id);
     }
 
     [Fact]
