@@ -167,4 +167,32 @@ public class PetsControllerTests : BaseControllerTests
         result.Errors.Select(m => m.ErrorMessage).Should()
             .BeEquivalentTo(expectedErrors);
     }
+    
+    [Fact]
+    public async Task DeleteOneAsync_WithExistingPet_DeletesAsExpected()
+    {
+        // Arrange
+        var pet = DbContext.Pets.First();
+        
+        // Act
+        var response = await HttpClient.DeleteAsync($"/v1/pets/{pet.Id}");
+        
+        // Assert
+        response.Should().Be200Ok();
+    }
+
+    [Fact]
+    public async Task DeleteOneAsync_WithInexistentPet_ReturnsNotFound()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        while (DbContext.Pets.Any(m => m.Id == id))
+            id = Guid.NewGuid();
+        
+        // Act
+        var response = await HttpClient.DeleteAsync($"/v1/pets/{id}");
+        
+        // Assert
+        response.Should().Be404NotFound();
+    }
 }
