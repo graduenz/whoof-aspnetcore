@@ -103,7 +103,7 @@ public static class PreloadedData
         var pets = new List<Pet>();
         var petVaccinations = new List<PetVaccination>();
 
-        for (int i = 0; i < 50; i++)
+        for (var i = 0; i < 50; i++)
         {
             var ownerId = Guid.NewGuid();
             var petName = petNames[random.Next(petNames.Count)];
@@ -118,7 +118,7 @@ public static class PreloadedData
             };
 
             var numVaccinations = random.Next(1, 5);
-            for (int j = 0; j < numVaccinations; j++)
+            for (var j = 0; j < numVaccinations; j++)
             {
                 var vaccine = vaccines[random.Next(vaccines.Count)];
                 var appliedAt = DateTimeOffset.UtcNow.AddDays(-random.Next(30, 365));
