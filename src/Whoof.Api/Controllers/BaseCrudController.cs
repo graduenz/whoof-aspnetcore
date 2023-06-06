@@ -53,9 +53,9 @@ public abstract class BaseCrudController<TEntity> : ControllerBase
         var validationResult = await Validator.ValidateAsync(entity);
 
         if (!validationResult.IsValid)
-            return BadRequest(new {
+            return BadRequest(new ValidationErrorsResult {
                 Type = "VALIDATION_ERRORS",
-                validationResult.Errors
+                Errors = validationResult.Errors
             });
 
         var result = await DbContext.Set<TEntity>().AddAsync(entity);
@@ -69,9 +69,9 @@ public abstract class BaseCrudController<TEntity> : ControllerBase
         var validationResult = await Validator.ValidateAsync(entity);
 
         if (!validationResult.IsValid)
-            return BadRequest(new {
+            return BadRequest(new ValidationErrorsResult {
                 Type = "VALIDATION_ERRORS",
-                validationResult.Errors
+                Errors = validationResult.Errors
             });
         
         var existingEntity = await DbContext.Set<TEntity>()
