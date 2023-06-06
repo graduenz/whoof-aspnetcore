@@ -74,10 +74,10 @@ public abstract class BaseCrudController<TEntity> : ControllerBase
                 Errors = validationResult.Errors
             });
         
-        var existingEntity = await DbContext.Set<TEntity>()
-            .FirstOrDefaultAsync(m => m.Id == id);
+        var entityExists = await DbContext.Set<TEntity>()
+            .AnyAsync(m => m.Id == id);
 
-        if (existingEntity == null)
+        if (entityExists is false)
             return NotFound();
         
         var result = DbContext.Set<TEntity>().Update(entity);

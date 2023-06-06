@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Whoof.Api.Entities;
 using Whoof.Api.Enums;
 using Whoof.Api.Models;
@@ -9,6 +10,22 @@ namespace Whoof.Tests.Api;
 
 public class PetsControllerTests : BaseControllerTests
 {
+    private static readonly Guid IdPetWithEmptyName = Guid.NewGuid();
+    private static readonly Guid IdPetWithUnspecifiedType = Guid.NewGuid();
+    
+    public static IEnumerable<object[]> MemberData_Pets_And_ValidationErrors()
+    {
+        yield return new object[] {
+            new Pet { Id = IdPetWithEmptyName, Name = "", PetType = PetType.Capybara },
+            new[] { "'Name' must not be empty." }
+        };
+        
+        yield return new object[] {
+            new Pet { Id = IdPetWithUnspecifiedType, Name = "Qwerty", PetType = PetType.Unspecified },
+            new[] { "'Pet Type' must not be equal to 'Unspecified'." }
+        };
+    }
+    
     [Theory]
     [InlineData(1, 20)]
     [InlineData(2, 20)]
@@ -67,25 +84,77 @@ public class PetsControllerTests : BaseControllerTests
                 .Excluding(m => m.Id));
     }
 
-    public static IEnumerable<object[]> _AddOneAsync_WithInvalidData_DoesntAdd()
-    {
-        yield return new object[] {
-            new Pet { Name = "", PetType = PetType.Capybara },
-            new[] { "'Name' must not be empty." }
-        };
-        
-        yield return new object[] {
-            new Pet { Name = "Qwerty", PetType = PetType.Unspecified },
-            new[] { "'Pet Type' must not be equal to 'Unspecified'." }
-        };
-    }
-
     [Theory]
-    [MemberData(nameof(_AddOneAsync_WithInvalidData_DoesntAdd))]
+    [MemberData(nameof(MemberData_Pets_And_ValidationErrors))]
     public async Task AddOneAsync_WithInvalidData_DoesntAdd(Pet pet, string[] expectedErrors)
     {
         // Act
         var response = await HttpClient.PostAsJsonAsync("v1/pets/", pet);
+        
+        // Assert
+        response.Should()
+            .NotBeNull().And
+            .Be400BadRequest();
+
+        var result = await response.Content.ReadFromJsonAsync<ValidationErrorsResult>();
+        result.Should().NotBeNull();
+        result.Type.Should().Be("VALIDATION_ERRORS");
+        result.Errors.Select(m => m.ErrorMessage).Should()
+            .BeEquivalentTo(expectedErrors);
+    }
+
+    [Fact]
+    public async Task UpdateOneAsync_WithValidData_UpdatesAsExpected()
+    {
+        // Arrange
+        var pet = DbContext.Pets.First();
+        pet.Vaccinations = null;
+        pet.Name = "Updated";
+        
+        // Act
+        var response = await HttpClient.PutAsJsonAsync($"/v1/pets/{pet.Id}", pet);
+        
+        // Assert
+        response.Should()
+            .NotBeNull().And
+            .Be200Ok().And
+            .BeAs(pet);
+    }
+
+    [Fact]
+    public async Task UpdateOneAsync_WithInexistentPet_ReturnsNotFound()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        while (DbContext.Pets.Any(m => m.Id == id))
+            id = Guid.NewGuid();
+
+        var pet = DbContext.Pets.First();
+        pet.Vaccinations = null;
+        pet.Id = id;
+        
+        // Act
+        var response = await HttpClient.PutAsJsonAsync($"/v1/pets/{pet.Id}", pet);
+        
+        // Assert
+        response.Should().Be404NotFound();
+    }
+
+    [Theory]
+    [MemberData(nameof(MemberData_Pets_And_ValidationErrors))]
+    public async Task UpdateOneAsync_WithInvalidData_DoesntUpdate(Pet pet, string[] expectedErrors)
+    {
+        // Assert
+        await DbContext.Pets.AddAsync(new Pet
+        {
+            Id = pet.Id,
+            Name = "Dollar",
+            OwnerId = Guid.NewGuid(),
+            PetType = PetType.Dog
+        });
+        
+        // Act
+        var response = await HttpClient.PutAsJsonAsync($"v1/pets/{pet.Id}", pet);
         
         // Assert
         response.Should()
