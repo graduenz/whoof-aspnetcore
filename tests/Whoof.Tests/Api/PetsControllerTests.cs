@@ -25,4 +25,22 @@ public class PetsControllerTests : BaseControllerTests
         result.TotalPages.Should().Be(3);
         result.Items.Should().HaveCount(expectedPageSize);
     }
+
+    [Fact]
+    public async Task GetOneAsync_ReturnsAsExpected()
+    {
+        // Arrange
+        var expectedPet = DbContext.Pets.First();
+        
+        // Act
+        var actualPet = await HttpClient.GetFromJsonAsync<Pet>(
+            $"/v1/pets/{expectedPet.Id}"
+        );
+        
+        // Assert
+        actualPet.Should()
+            .NotBeNull().And
+            .BeEquivalentTo(expectedPet, c => c
+                .Excluding(m => m.Vaccinations));
+    }
 }

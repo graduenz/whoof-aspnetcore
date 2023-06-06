@@ -44,7 +44,7 @@ public abstract class BaseCrudController<TEntity> : ControllerBase
 
         return entity == null
             ? NotFound()
-            : Ok();
+            : Ok(entity);
     }
     
     [HttpPost]
