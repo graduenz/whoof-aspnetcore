@@ -4,7 +4,6 @@ namespace Whoof.Api.Entities;
 
 public class Pet : BaseEntity
 {
-    public Guid OwnerId { get; set; }
     public string? Name { get; set; }
     public PetType PetType { get; set; }
     

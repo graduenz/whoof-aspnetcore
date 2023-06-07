@@ -111,7 +111,6 @@ public static class PreloadedData
 
             var pet = new Pet
             {
-                OwnerId = ownerId,
                 Name = petName,
                 PetType = petType,
                 Vaccinations = new List<PetVaccination>()

@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Whoof.Api.Entities;
 
 namespace Whoof.Api.Persistence;
 
-public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
+public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions options)
         : base(options)
@@ -23,8 +22,6 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
         {
             b.HasKey(m => m.Id);
             b.Property(m => m.CreatedAt).IsRequired();
-            b.Property(m => m.CreatedBy).IsRequired();
-            b.Property(m => m.OwnerId).IsRequired();
             b.Property(m => m.Name).IsRequired();
             b.Property(m => m.PetType).IsRequired();
         });
@@ -33,7 +30,6 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
         {
             b.HasKey(m => m.Id);
             b.Property(m => m.CreatedAt).IsRequired();
-            b.Property(m => m.CreatedBy).IsRequired();
             b.Property(m => m.Name).IsRequired();
             b.Property(m => m.PetType).IsRequired();
             b.Property(m => m.Duration).IsRequired();
@@ -43,7 +39,6 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
         {
             b.HasKey(m => m.Id);
             b.Property(m => m.CreatedAt).IsRequired();
-            b.Property(m => m.CreatedBy).IsRequired();
             b.Property(m => m.PetId).IsRequired();
             b.Property(m => m.VaccineId).IsRequired();
             b.Property(m => m.AppliedAt).IsRequired();

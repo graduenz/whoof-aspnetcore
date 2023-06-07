@@ -69,8 +69,7 @@ public class PetsControllerTests : BaseControllerTests
         var pet = new Pet
         {
             Name = "Ravena",
-            PetType = PetType.Dog,
-            OwnerId = Guid.NewGuid()
+            PetType = PetType.Dog
         };
 
         var beforeCount = await DbContext.Pets.CountAsync();
@@ -169,7 +168,6 @@ public class PetsControllerTests : BaseControllerTests
         {
             Id = pet.Id,
             Name = "Dollar",
-            OwnerId = Guid.NewGuid(),
             PetType = PetType.Dog
         });
         
