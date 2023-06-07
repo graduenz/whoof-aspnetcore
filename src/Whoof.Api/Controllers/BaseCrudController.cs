@@ -57,6 +57,8 @@ public abstract class BaseCrudController<TEntity> : ControllerBase
                 Type = "VALIDATION_ERRORS",
                 Errors = validationResult.Errors
             });
+        
+        entity.CreatedAt = entity.ModifiedAt = DateTimeOffset.UtcNow;
 
         var result = await DbContext.Set<TEntity>().AddAsync(entity);
         
@@ -81,6 +83,8 @@ public abstract class BaseCrudController<TEntity> : ControllerBase
 
         if (entityExists is false)
             return NotFound();
+        
+        entity.ModifiedAt = DateTimeOffset.UtcNow;
         
         var result = DbContext.Set<TEntity>().Update(entity);
 
