@@ -2,5 +2,5 @@
 
 public interface IBadRequest
 {
-    string Type { get; }
+    string? Type { get; }
 }

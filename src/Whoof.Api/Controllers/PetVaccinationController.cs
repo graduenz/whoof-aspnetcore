@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Whoof.Api.Entities;
 using Whoof.Api.Persistence;
 
@@ -16,10 +17,10 @@ public class PetVaccinationController : BaseCrudController<PetVaccination>
     [HttpGet("pet/{petId:guid}")]
     public async Task<IActionResult> GetManyAsync([FromRoute] Guid petId)
     {
-        return Ok(DbContext.PetVaccinations
+        return Ok(await DbContext.PetVaccinations
             .Where(m => m.PetId == petId)
             .OrderByDescending(m => m.AppliedAt)
-            .ToList()
+            .ToListAsync()
         );
     }
 }
