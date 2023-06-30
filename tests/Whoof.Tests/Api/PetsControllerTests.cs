@@ -45,7 +45,7 @@ public class PetsControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task GetOneAsync_ReturnsAsExpected()
+    public async Task GetOneAsync_WhenPetExists_ReturnsAsExpected()
     {
         // Arrange
         var expectedPet = DbContext.Pets.First();
@@ -60,6 +60,21 @@ public class PetsControllerTests : BaseControllerTests
             .NotBeNull().And
             .BeEquivalentTo(expectedPet, c => c
                 .Excluding(m => m.Vaccinations));
+    }
+
+    [Fact]
+    public async Task GetOneAsync_WhenPetDoesntExist_ReturnsNotFound()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        while (DbContext.Pets.Any(m => m.Id == id))
+            id = Guid.NewGuid();
+        
+        // Act
+        var response = await HttpClient.GetAsync($"/v1/pets/{id}");
+        
+        // Assert
+        response.Should().Be404NotFound();
     }
 
     [Fact]
@@ -141,7 +156,7 @@ public class PetsControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task UpdateOneAsync_WithInexistentPet_ReturnsNotFound()
+    public async Task UpdateOneAsync_WithNonexistentPet_ReturnsNotFound()
     {
         // Arrange
         var id = Guid.NewGuid();
@@ -202,7 +217,7 @@ public class PetsControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task DeleteOneAsync_WithInexistentPet_ReturnsNotFound()
+    public async Task DeleteOneAsync_WithNonexistentPet_ReturnsNotFound()
     {
         // Arrange
         var id = Guid.NewGuid();
