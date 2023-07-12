@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Whoof.Api.Entities;
+using Whoof.Api.Enums;
 
 namespace Whoof.Api.Persistence;
 
@@ -23,7 +25,9 @@ public class AppDbContext : DbContext
             b.HasKey(m => m.Id);
             b.Property(m => m.CreatedAt).IsRequired();
             b.Property(m => m.Name).IsRequired();
-            b.Property(m => m.PetType).IsRequired();
+            b.Property(m => m.PetType)
+                .IsRequired()
+                .HasConversion(new EnumToStringConverter<PetType>());
         });
         
         modelBuilder.Entity<Vaccine>(b =>
@@ -31,7 +35,9 @@ public class AppDbContext : DbContext
             b.HasKey(m => m.Id);
             b.Property(m => m.CreatedAt).IsRequired();
             b.Property(m => m.Name).IsRequired();
-            b.Property(m => m.PetType).IsRequired();
+            b.Property(m => m.PetType)
+                .IsRequired()
+                .HasConversion(new EnumToStringConverter<PetType>());
             b.Property(m => m.Duration).IsRequired();
         });
         
