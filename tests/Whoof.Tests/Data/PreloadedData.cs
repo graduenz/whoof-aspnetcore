@@ -15,77 +15,77 @@ public static class PreloadedData
                 Name = "Rabies",
                 Description = "Protects against rabies virus",
                 PetType = PetType.Dog,
-                Duration = TimeSpan.FromDays(365)
+                Duration = 365
             },
             new()
             {
                 Name = "Distemper",
                 Description = "Protects against distemper virus",
                 PetType = PetType.Dog,
-                Duration = TimeSpan.FromDays(365)
+                Duration = 365
             },
             new()
             {
                 Name = "Parvovirus",
                 Description = "Protects against parvovirus",
                 PetType = PetType.Dog,
-                Duration = TimeSpan.FromDays(365)
+                Duration = 365
             },
             new()
             {
                 Name = "Bordetella",
                 Description = "Protects against kennel cough",
                 PetType = PetType.Dog,
-                Duration = TimeSpan.FromDays(180)
+                Duration = 180
             },
             new()
             {
                 Name = "Leptospirosis",
                 Description = "Protects against leptospirosis bacteria",
                 PetType = PetType.Dog,
-                Duration = TimeSpan.FromDays(365)
+                Duration = 365
             },
             new()
             {
                 Name = "Feline Leukemia",
                 Description = "Protects against feline leukemia virus",
                 PetType = PetType.Cat,
-                Duration = TimeSpan.FromDays(365)
+                Duration = 365
             },
             new()
             {
                 Name = "Feline Calicivirus",
                 Description = "Protects against feline calicivirus",
                 PetType = PetType.Cat,
-                Duration = TimeSpan.FromDays(365)
+                Duration = 365
             },
             new()
             {
                 Name = "Feline Herpesvirus",
                 Description = "Protects against feline herpesvirus",
                 PetType = PetType.Cat,
-                Duration = TimeSpan.FromDays(365)
+                Duration = 365
             },
             new()
             {
                 Name = "Canine Influenza",
                 Description = "Protects against canine influenza virus",
                 PetType = PetType.Dog,
-                Duration = TimeSpan.FromDays(365)
+                Duration = 365
             },
             new()
             {
                 Name = "Canine Parainfluenza",
                 Description = "Protects against canine parainfluenza virus",
                 PetType = PetType.Dog,
-                Duration = TimeSpan.FromDays(365)
+                Duration = 365
             },
             new()
             {
                 Name = "Capybarism",
                 Description = "Random vaccine for capybaras",
                 PetType = PetType.Capybara,
-                Duration = TimeSpan.FromDays(720)
+                Duration = 720
             },
         };
 

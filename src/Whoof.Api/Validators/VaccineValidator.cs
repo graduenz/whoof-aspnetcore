@@ -10,6 +10,6 @@ public class VaccineValidator : AbstractValidator<Vaccine>
     {
         RuleFor(m => m.Name).NotEmpty();
         RuleFor(m => m.PetType).NotEqual(PetType.Unspecified);
-        RuleFor(m => m.Duration).GreaterThanOrEqualTo(TimeSpan.FromDays(1));
+        RuleFor(m => m.Duration).GreaterThanOrEqualTo(TimeSpan.FromDays(1).Days);
     }
 }
