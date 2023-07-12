@@ -12,8 +12,8 @@ using Whoof.Api.Persistence;
 namespace Whoof.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230712161317_PetTypeAsText")]
-    partial class PetTypeAsText
+    [Migration("20230712161914_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
