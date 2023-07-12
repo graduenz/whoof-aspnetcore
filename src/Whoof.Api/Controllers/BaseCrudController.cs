@@ -85,6 +85,7 @@ public abstract class BaseCrudController<TEntity> : ControllerBase
             return NotFound();
         
         entity.ModifiedAt = DateTimeOffset.UtcNow;
+        entity.Id = id;
         
         var result = DbContext.Set<TEntity>().Update(entity);
 
