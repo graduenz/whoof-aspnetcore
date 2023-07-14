@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{822DA6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whoof.Domain", "src\common\Whoof.Domain\Whoof.Domain.csproj", "{117DF7A8-D2CE-4748-A7F0-4F59D327197B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whoof.Application", "src\common\Whoof.Application\Whoof.Application.csproj", "{854ABA0A-0EA3-42DF-9EBD-1D37149A0697}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,7 @@ Global
 		{822DA631-C15E-426E-A22F-638688DE7D48} = {1FCD476E-6369-4778-93B5-68AC292A9176}
 		{66D1D95D-2D58-4068-8194-E0AFA3C76BE0} = {73716B62-8D1F-40F6-95B1-3A0551DE62D2}
 		{117DF7A8-D2CE-4748-A7F0-4F59D327197B} = {822DA631-C15E-426E-A22F-638688DE7D48}
+		{854ABA0A-0EA3-42DF-9EBD-1D37149A0697} = {822DA631-C15E-426E-A22F-638688DE7D48}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{66D1D95D-2D58-4068-8194-E0AFA3C76BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -39,5 +42,9 @@ Global
 		{117DF7A8-D2CE-4748-A7F0-4F59D327197B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{117DF7A8-D2CE-4748-A7F0-4F59D327197B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{117DF7A8-D2CE-4748-A7F0-4F59D327197B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{854ABA0A-0EA3-42DF-9EBD-1D37149A0697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{854ABA0A-0EA3-42DF-9EBD-1D37149A0697}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{854ABA0A-0EA3-42DF-9EBD-1D37149A0697}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{854ABA0A-0EA3-42DF-9EBD-1D37149A0697}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

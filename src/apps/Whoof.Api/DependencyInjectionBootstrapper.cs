@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Whoof.Api.Persistence;
-using Whoof.Api.Validators;
+using Whoof.Application.Validators;
 
 namespace Whoof.Api;
 

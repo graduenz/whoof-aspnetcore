@@ -2,7 +2,7 @@
 using Whoof.Domain.Entities;
 using Whoof.Domain.Enums;
 
-namespace Whoof.Api.Validators;
+namespace Whoof.Application.Validators;
 
 public class PetValidator : AbstractValidator<Pet>
 {

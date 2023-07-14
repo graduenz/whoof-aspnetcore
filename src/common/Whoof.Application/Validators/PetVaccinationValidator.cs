@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Whoof.Domain.Entities;
 
-namespace Whoof.Api.Validators;
+namespace Whoof.Application.Validators;
 
 public class PetVaccinationValidator : AbstractValidator<PetVaccination>
 {
