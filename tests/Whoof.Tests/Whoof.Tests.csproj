@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Whoof.Api\Whoof.Api.csproj" />
+      <ProjectReference Include="..\..\src\apps\Whoof.Api\Whoof.Api.csproj" />
     </ItemGroup>
 
 </Project>

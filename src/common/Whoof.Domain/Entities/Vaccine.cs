@@ -1,6 +1,7 @@
-﻿using Whoof.Api.Enums;
+﻿using Whoof.Domain.Common;
+using Whoof.Domain.Enums;
 
-namespace Whoof.Api.Entities;
+namespace Whoof.Domain.Entities;
 
 public class Vaccine : BaseEntity
 {

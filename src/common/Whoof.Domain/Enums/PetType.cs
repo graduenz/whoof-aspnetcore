@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Whoof.Api.Enums;
+namespace Whoof.Domain.Enums;
 
 public enum PetType
 {

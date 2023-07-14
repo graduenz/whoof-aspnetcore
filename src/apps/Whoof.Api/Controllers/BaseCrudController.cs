@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Whoof.Api.Entities;
 using Whoof.Api.Models;
 using Whoof.Api.Persistence;
+using Whoof.Domain.Common;
 
 namespace Whoof.Api.Controllers;
 

@@ -1,6 +1,6 @@
-﻿using Whoof.Api.Entities;
-using Whoof.Api.Enums;
-using Whoof.Api.Persistence;
+﻿using Whoof.Api.Persistence;
+using Whoof.Domain.Entities;
+using Whoof.Domain.Enums;
 
 namespace Whoof.Tests.Data;
 

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using Whoof.Api.Entities;
-using Whoof.Api.Enums;
+using Whoof.Domain.Entities;
+using Whoof.Domain.Enums;
 
 namespace Whoof.Api.Validators;
 

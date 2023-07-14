@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Whoof.Api.Entities;
-using Whoof.Api.Enums;
+using Whoof.Domain.Entities;
+using Whoof.Domain.Enums;
 
 namespace Whoof.Api.Persistence;
 

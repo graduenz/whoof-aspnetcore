@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Whoof.Api.Entities;
+using Whoof.Domain.Entities;
 
 namespace Whoof.Api.Validators;
 

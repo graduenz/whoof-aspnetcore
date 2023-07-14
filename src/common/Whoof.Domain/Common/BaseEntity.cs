@@ -1,6 +1,6 @@
-﻿namespace Whoof.Api.Entities;
+﻿namespace Whoof.Domain.Common;
 
-public class BaseEntity
+public abstract class BaseEntity
 {
     public Guid Id { get; set; }
     public DateTimeOffset CreatedAt { get; set; }

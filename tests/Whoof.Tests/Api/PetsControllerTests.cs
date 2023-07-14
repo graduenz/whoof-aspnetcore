@@ -1,9 +1,9 @@
 ﻿using System.Net.Http.Json;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Whoof.Api.Entities;
-using Whoof.Api.Enums;
 using Whoof.Api.Models;
+using Whoof.Domain.Entities;
+using Whoof.Domain.Enums;
 using Whoof.Tests.Api.Support;
 
 namespace Whoof.Tests.Api;

@@ -1,4 +1,6 @@
-﻿namespace Whoof.Api.Entities;
+﻿using Whoof.Domain.Common;
+
+namespace Whoof.Domain.Entities;
 
 public class PetVaccination : BaseEntity
 {
