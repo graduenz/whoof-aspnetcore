@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using Whoof.Application.Common.Interfaces;
 
 namespace Whoof.Application.Common.Models;
 

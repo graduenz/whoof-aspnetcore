@@ -1,4 +1,4 @@
-﻿namespace Whoof.Application.Common.Models;
+﻿namespace Whoof.Application.Common.Interfaces;
 
 public interface IBadRequest
 {
