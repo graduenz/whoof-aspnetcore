@@ -8,7 +8,7 @@ public abstract class
     BaseOwnedCreateCommandHandler<TCommand, TDto, TEntity> : BaseCreateCommandHandler<TCommand, TDto, TEntity>
     where TCommand : BaseCreateCommand<TDto>
     where TDto : class
-    where TEntity : OwnedEntity
+    where TEntity : BaseOwnedEntity
 {
     protected BaseOwnedCreateCommandHandler(IAppDbContext dbContext, IMapper mapper,
         ICurrentUserService currentUserService)

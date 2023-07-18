@@ -8,7 +8,7 @@ public abstract class
     BaseOwnedGetListQueryHandler<TQuery, TDto, TEntity> : BaseGetListQueryHandler<TQuery, TDto, TEntity>
     where TQuery : BaseGetListQuery<TDto, TEntity>
     where TDto : class
-    where TEntity : OwnedEntity
+    where TEntity : BaseOwnedEntity
 {
     protected BaseOwnedGetListQueryHandler(IAppDbContext dbContext, IMapper mapper, IFilterAdapter filterAdapter,
         ISortAdapter sortAdapter, ICurrentUserService currentUserService) : base(dbContext, mapper, filterAdapter,

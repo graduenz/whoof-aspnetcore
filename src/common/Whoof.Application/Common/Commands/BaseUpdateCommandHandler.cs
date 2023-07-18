@@ -37,7 +37,7 @@ public abstract class BaseUpdateCommandHandler<TCommand, TDto, TEntity> : IReque
 
         entity.Id = request.Id;
 
-        if (entity is OwnedEntity owned2)
+        if (entity is BaseOwnedEntity owned2)
             owned2.OwnerId = userId;
 
         await BeforeUpdateAsync(entity, userId, cancellationToken);

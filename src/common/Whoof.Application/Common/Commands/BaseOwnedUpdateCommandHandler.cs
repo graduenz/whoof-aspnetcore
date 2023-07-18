@@ -7,7 +7,7 @@ namespace Whoof.Application.Common.Commands;
 public class BaseOwnedUpdateCommandHandler<TCommand, TDto, TEntity> : BaseUpdateCommandHandler<TCommand, TDto, TEntity>
     where TCommand : BaseUpdateCommand<TDto>
     where TDto : class
-    where TEntity : OwnedEntity
+    where TEntity : BaseOwnedEntity
 {
     protected BaseOwnedUpdateCommandHandler(IAppDbContext dbContext, IMapper mapper,
         ICurrentUserService currentUserService)

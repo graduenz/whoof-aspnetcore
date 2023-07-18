@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
-using Whoof.Domain.Entities;
+using Whoof.Application.Pets.Dto;
 using Whoof.Domain.Enums;
 
-namespace Whoof.Application.Validators;
+namespace Whoof.Application.Pets.Validators;
 
-public class PetValidator : AbstractValidator<Pet>
+public class PetDtoValidator : AbstractValidator<PetDto>
 {
-    public PetValidator()
+    public PetDtoValidator()
     {
         RuleFor(m => m.Name).NotEmpty();
         RuleFor(m => m.PetType).NotEqual(PetType.Unspecified);

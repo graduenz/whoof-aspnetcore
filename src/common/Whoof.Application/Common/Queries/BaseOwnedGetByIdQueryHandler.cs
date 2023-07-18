@@ -8,7 +8,7 @@ public abstract class
     BaseOwnedGetByIdQueryHandler<TQuery, TDto, TEntity> : BaseGetByIdQueryHandler<TQuery, TDto, TEntity>
     where TQuery : BaseGetByIdQuery<TDto>
     where TDto : class
-    where TEntity : OwnedEntity
+    where TEntity : BaseOwnedEntity
 {
     protected BaseOwnedGetByIdQueryHandler(IAppDbContext dbContext, IMapper mapper,
         ICurrentUserService currentUserService)

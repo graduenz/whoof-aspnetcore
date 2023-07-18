@@ -9,7 +9,7 @@ public abstract class
     BaseOwnedDeleteCommandHandler<TCommand, TDto, TEntity> : BaseDeleteCommandHandler<TCommand, TDto, TEntity>
     where TCommand : BaseDeleteCommand<TDto>
     where TDto : class
-    where TEntity : OwnedEntity
+    where TEntity : BaseOwnedEntity
 {
     protected BaseOwnedDeleteCommandHandler(IAppDbContext dbContext, IMapper mapper,
         ICurrentUserService currentUserService)
