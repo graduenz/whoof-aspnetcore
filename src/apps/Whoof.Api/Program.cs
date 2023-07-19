@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using Whoof.Api;
+using Whoof.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

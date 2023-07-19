@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Whoof.Api.Persistence;
+using Whoof.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace Whoof.Api.Migrations
+namespace Whoof.Migrations.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230712161914_Initial")]
-    partial class Initial
+    [Migration("20230718125524_PetOwnership")]
+    partial class PetOwnership
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace Whoof.Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Whoof.Api.Entities.Pet", b =>
+            modelBuilder.Entity("Whoof.Domain.Entities.Pet", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,11 +34,20 @@ namespace Whoof.Api.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
                     b.Property<DateTimeOffset>("ModifiedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("OwnerId")
                         .HasColumnType("text");
 
                     b.Property<string>("PetType")
@@ -50,7 +59,7 @@ namespace Whoof.Api.Migrations
                     b.ToTable("Pets");
                 });
 
-            modelBuilder.Entity("Whoof.Api.Entities.PetVaccination", b =>
+            modelBuilder.Entity("Whoof.Domain.Entities.PetVaccination", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -62,8 +71,14 @@ namespace Whoof.Api.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
                     b.Property<DateTimeOffset>("ModifiedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("text");
 
                     b.Property<Guid>("PetId")
                         .HasColumnType("uuid");
@@ -80,7 +95,7 @@ namespace Whoof.Api.Migrations
                     b.ToTable("PetVaccinations");
                 });
 
-            modelBuilder.Entity("Whoof.Api.Entities.Vaccine", b =>
+            modelBuilder.Entity("Whoof.Domain.Entities.Vaccine", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,6 +103,9 @@ namespace Whoof.Api.Migrations
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -97,6 +115,9 @@ namespace Whoof.Api.Migrations
 
                     b.Property<DateTimeOffset>("ModifiedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -111,15 +132,15 @@ namespace Whoof.Api.Migrations
                     b.ToTable("Vaccines");
                 });
 
-            modelBuilder.Entity("Whoof.Api.Entities.PetVaccination", b =>
+            modelBuilder.Entity("Whoof.Domain.Entities.PetVaccination", b =>
                 {
-                    b.HasOne("Whoof.Api.Entities.Pet", "Pet")
+                    b.HasOne("Whoof.Domain.Entities.Pet", "Pet")
                         .WithMany("Vaccinations")
                         .HasForeignKey("PetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Whoof.Api.Entities.Vaccine", "Vaccine")
+                    b.HasOne("Whoof.Domain.Entities.Vaccine", "Vaccine")
                         .WithMany("Vaccinations")
                         .HasForeignKey("VaccineId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -130,12 +151,12 @@ namespace Whoof.Api.Migrations
                     b.Navigation("Vaccine");
                 });
 
-            modelBuilder.Entity("Whoof.Api.Entities.Pet", b =>
+            modelBuilder.Entity("Whoof.Domain.Entities.Pet", b =>
                 {
                     b.Navigation("Vaccinations");
                 });
 
-            modelBuilder.Entity("Whoof.Api.Entities.Vaccine", b =>
+            modelBuilder.Entity("Whoof.Domain.Entities.Vaccine", b =>
                 {
                     b.Navigation("Vaccinations");
                 });

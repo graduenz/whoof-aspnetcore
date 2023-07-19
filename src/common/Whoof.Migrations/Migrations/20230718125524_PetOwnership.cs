@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Whoof.Api.Migrations
+namespace Whoof.Migrations.Migrations
 {
     /// <inheritdoc />
     public partial class PetOwnership : Migration
