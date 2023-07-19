@@ -5,6 +5,7 @@ using Whoof.Application.Common.Models;
 using Whoof.Domain.Entities;
 using Whoof.Domain.Enums;
 using Whoof.Tests.Api.Support;
+using Whoof.Tests.Extensions;
 
 namespace Whoof.Tests.Api;
 
@@ -34,7 +35,7 @@ public class PetsControllerTests : BaseControllerTests
     {
         // Act
         var result = await HttpClient.GetFromJsonAsync<PaginatedList<Pet>>(
-            $"/v1/pets?pageIndex={pageIndex}&pageSize={20}"
+            $"/v1/pets?pageIndex={pageIndex}&pageSize={20}", JsonOptions
         );
         
         // Assert
@@ -52,13 +53,14 @@ public class PetsControllerTests : BaseControllerTests
         
         // Act
         var actualPet = await HttpClient.GetFromJsonAsync<Pet>(
-            $"/v1/pets/{expectedPet.Id}"
+            $"/v1/pets/{expectedPet.Id}", JsonOptions
         );
         
         // Assert
         actualPet.Should()
             .NotBeNull().And
             .BeEquivalentTo(expectedPet, c => c
+                .ExcludingBaseFields()
                 .Excluding(m => m.Vaccinations));
     }
 
@@ -90,16 +92,16 @@ public class PetsControllerTests : BaseControllerTests
         var beforeCount = await DbContext.Pets.CountAsync();
         
         // Act
-        var response = await HttpClient.PostAsJsonAsync("v1/pets/", pet);
+        var response = await HttpClient.PostAsJsonAsync("v1/pets/", pet, JsonOptions);
         
         // Assert
         response.Should()
             .NotBeNull().And
             .Be201Created().And
             .BeAs(pet, c => c
-                .Excluding(m => m.Id));
+                .ExcludingBaseFields());
 
-        pet = await response.Content.ReadFromJsonAsync<Pet>();
+        pet = await response.Content.ReadFromJsonAsync<Pet>(JsonOptions);
 
         var afterCount = await DbContext.Pets.CountAsync();
         afterCount.Should().Be(beforeCount + 1);
@@ -115,14 +117,14 @@ public class PetsControllerTests : BaseControllerTests
         var beforeCount = await DbContext.Pets.CountAsync();
         
         // Act
-        var response = await HttpClient.PostAsJsonAsync("v1/pets/", pet);
+        var response = await HttpClient.PostAsJsonAsync("v1/pets/", pet, JsonOptions);
         
         // Assert
         response.Should()
             .NotBeNull().And
             .Be400BadRequest();
 
-        var result = await response.Content.ReadFromJsonAsync<ValidationErrorsResult>();
+        var result = await response.Content.ReadFromJsonAsync<ValidationErrorsResult>(JsonOptions);
         result.Should().NotBeNull();
         result.Type.Should().Be("VALIDATION_ERRORS");
         result.Errors.Select(m => m.ErrorMessage).Should()
@@ -143,13 +145,14 @@ public class PetsControllerTests : BaseControllerTests
         pet.Name = "Updated";
         
         // Act
-        var response = await HttpClient.PutAsJsonAsync($"/v1/pets/{pet.Id}", pet);
+        var response = await HttpClient.PutAsJsonAsync($"/v1/pets/{pet.Id}", pet, JsonOptions);
         
         // Assert
         response.Should()
             .NotBeNull().And
             .Be200Ok().And
-            .BeAs(pet);
+            .BeAs(pet, c => c
+                .ExcludingBaseFields());
 
         pet = DbContext.Pets.First(m => m.Id == pet.Id);
         pet.Name.Should().Be("Updated");
@@ -168,7 +171,7 @@ public class PetsControllerTests : BaseControllerTests
         pet.Id = id;
         
         // Act
-        var response = await HttpClient.PutAsJsonAsync($"/v1/pets/{pet.Id}", pet);
+        var response = await HttpClient.PutAsJsonAsync($"/v1/pets/{pet.Id}", pet, JsonOptions);
         
         // Assert
         response.Should().Be404NotFound();
@@ -187,14 +190,14 @@ public class PetsControllerTests : BaseControllerTests
         });
         
         // Act
-        var response = await HttpClient.PutAsJsonAsync($"v1/pets/{pet.Id}", pet);
+        var response = await HttpClient.PutAsJsonAsync($"v1/pets/{pet.Id}", pet, JsonOptions);
         
         // Assert
         response.Should()
             .NotBeNull().And
             .Be400BadRequest();
 
-        var result = await response.Content.ReadFromJsonAsync<ValidationErrorsResult>();
+        var result = await response.Content.ReadFromJsonAsync<ValidationErrorsResult>(JsonOptions);
         result.Should().NotBeNull();
         result.Type.Should().Be("VALIDATION_ERRORS");
         result.Errors.Select(m => m.ErrorMessage).Should()

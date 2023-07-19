@@ -1,4 +1,5 @@
-using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Whoof.Api.Persistence;
 using Whoof.Tests.Data;
@@ -7,8 +8,18 @@ namespace Whoof.Tests.Api.Support;
 
 public abstract class BaseControllerTests : IDisposable
 {
+    private static JsonSerializerOptions BuildJsonOptions()
+    {
+        var jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+        jsonOptions.Converters.Add(new JsonStringEnumConverter());
+
+        return jsonOptions;
+    }
+    
     protected BaseControllerTests()
     {
+        JsonOptions = BuildJsonOptions();
+        
         ExclusiveDbName = $"whoof_{Guid.NewGuid()}";
         TestWebApplicationFactory<Program> factory = new(ExclusiveDbName);
         
@@ -18,6 +29,13 @@ public abstract class BaseControllerTests : IDisposable
         
         InitializeDatabase();
     }
+
+    public JsonSerializerOptions JsonOptions { get; }
+    public string ExclusiveDbName { get; }
+    protected HttpClient HttpClient { get; }
+    protected IServiceScope ServiceScope { get; }
+    protected AppDbContext DbContext { get; }
+    protected IServiceProvider ServiceProvider => ServiceScope.ServiceProvider;
 
     private void InitializeDatabase()
     {
@@ -30,12 +48,6 @@ public abstract class BaseControllerTests : IDisposable
     {
         DbContext.Database.EnsureDeleted();
     }
-
-    public string ExclusiveDbName { get; }
-    protected HttpClient HttpClient { get; }
-    protected IServiceScope ServiceScope { get; }
-    protected AppDbContext DbContext { get; }
-    protected IServiceProvider ServiceProvider => ServiceScope.ServiceProvider;
 
     protected virtual void Dispose(bool disposing)
     {
