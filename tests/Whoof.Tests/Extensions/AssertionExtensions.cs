@@ -1,5 +1,5 @@
 ﻿using FluentAssertions.Equivalency;
-using Whoof.Api.Entities;
+using Whoof.Domain.Common;
 
 namespace Whoof.Tests.Extensions;
 
