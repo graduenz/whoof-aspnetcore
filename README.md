@@ -11,8 +11,8 @@ Implementation of [Whoof API](https://gui.rdnz.dev/_/labs/whoof-api) using ASP.N
 - [x] PostgreSQL with Entity Framework Core
 - [x] Swagger
 - [ ] Modular refactoring
-- [ ] Adopt better design practices
-- [ ] Tests
+- [ ] Adopt more scalable design practices
+- [ ] Implement integration tests
 - [ ] Adapt [ASP.NET Core Integration Tests](https://gui.rdnz.dev/_/.net-engineering/asp.net-core-integration-tests) page to changes
 - [x] SonarCloud
 - [x] CI with GitHub Actions
