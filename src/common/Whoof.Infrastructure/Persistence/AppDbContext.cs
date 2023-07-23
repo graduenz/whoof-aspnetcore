@@ -14,7 +14,7 @@ public class AppDbContext : DbContext, IAppDbContext
 
     public DbSet<Pet> Pets { get; set; }
     public DbSet<Vaccine> Vaccines { get; set; }
-    public DbSet<PetVaccination> PetVaccinations { get; set; }
+    public DbSet<Domain.Entities.PetVaccination> PetVaccinations { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

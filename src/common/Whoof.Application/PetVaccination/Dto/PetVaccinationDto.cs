@@ -1,6 +1,8 @@
-﻿namespace Whoof.Application.PetVaccination.Dto;
+﻿using Whoof.Application.Common.Dto;
 
-public class PetVaccinationDto
+namespace Whoof.Application.PetVaccination.Dto;
+
+public class PetVaccinationDto : BaseDto
 {
     public Guid PetId { get; set; }
     public Guid VaccineId { get; set; }

@@ -16,7 +16,7 @@ namespace Whoof.Infrastructure;
 public static class DependencyInjectionBootstrapper
 {
     public static IServiceCollection
-        AddApplicationServices(this IServiceCollection services, IConfiguration configuration) => services
+        AddInfrastructure(this IServiceCollection services, IConfiguration configuration) => services
         .AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("AppDbContext"))
         )
