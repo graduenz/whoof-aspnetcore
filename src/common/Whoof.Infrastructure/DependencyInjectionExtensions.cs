@@ -13,7 +13,7 @@ using Whoof.Infrastructure.Persistence;
 
 namespace Whoof.Infrastructure;
 
-public static class DependencyInjectionBootstrapper
+public static class DependencyInjectionExtensions
 {
     public static IServiceCollection
         AddInfrastructure(this IServiceCollection services, IConfiguration configuration) => services

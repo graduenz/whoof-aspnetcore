@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
-using Whoof.Api.Services;
-using Whoof.Application.Common.Interfaces;
+using Whoof.Api;
 using Whoof.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,9 +17,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services
-    .AddInfrastructure(builder.Configuration)
     .AddHttpContextAccessor()
-    .AddScoped<ICurrentUserService, CurrentUserService>();
+    .AddInfrastructure(builder.Configuration)
+    .AddApi(builder.Configuration);
 
 var app = builder.Build();
 
