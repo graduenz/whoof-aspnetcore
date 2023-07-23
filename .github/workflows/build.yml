@@ -17,13 +17,13 @@ jobs:
       - name: Install SonarCloud scanner
         run: |
           dotnet tool install --global dotnet-sonarscanner
-      - name: Build, test & analyze
+      - name: Integration tests
         uses: isbang/compose-action@v1.5.0
         with:
           down-flags: "--volumes"
           services: |
             integration-tests
-      - name: Build and analyze
+      - name: SonarCloud scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

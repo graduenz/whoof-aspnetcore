@@ -13,6 +13,7 @@ services:
 
   integration-tests:
     build:
+      context: .
       dockerfile: ./Dockerfile.tests
     volumes:
       - ./test-reports:/app/test-reports
