@@ -1,6 +1,6 @@
 ﻿namespace Whoof.Application.Common.Models;
 
-public class ServiceError
+public class ServiceError : IEqualityComparer<ServiceError>
 {
     public ServiceError(int code, string message)
     {
@@ -18,41 +18,29 @@ public class ServiceError
     public static ServiceError NotFound => new ServiceError(995, "The specified resource was not found.");
     public static ServiceError Validation => new ServiceError(994, "One or more validation errors occurred.");
     public static ServiceError InternalServerError => new ServiceError(500, "Internal server error.");
-    
-    public override bool Equals(object? obj)
-    {
-        var error = obj as ServiceError;
-
-        return Code == error?.Code;
-    }
-
-    public bool Equals(ServiceError error)
-    {
-        return Code == error?.Code;
-    }
 
     public override int GetHashCode()
     {
         return Code;
     }
-
-    public static bool operator ==(ServiceError? a, ServiceError? b)
+    
+    public override bool Equals(object? obj)
     {
-        if (ReferenceEquals(a, b))
-        {
-            return true;
-        }
-
-        if ((object?)a == null || (object?)b == null)
-        {
-            return false;
-        }
-
-        return a.Equals(b);
+        var error = obj as ServiceError;
+        return Equals(this, error);
     }
 
-    public static bool operator !=(ServiceError? a, ServiceError? b)
+    public bool Equals(ServiceError? x, ServiceError? y)
     {
-        return !(a == b);
+        if (ReferenceEquals(x, y)) return true;
+        if (ReferenceEquals(x, null)) return false;
+        if (ReferenceEquals(y, null)) return false;
+        if (x.GetType() != y.GetType()) return false;
+        return x.Code == y.Code;
+    }
+
+    public int GetHashCode(ServiceError obj)
+    {
+        return obj.Code;
     }
 }

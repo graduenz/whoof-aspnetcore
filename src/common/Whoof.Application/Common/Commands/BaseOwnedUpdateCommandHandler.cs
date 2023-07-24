@@ -1,9 +1,11 @@
-﻿using AutoMapper;
+﻿using System.Diagnostics.CodeAnalysis;
+using AutoMapper;
 using Whoof.Application.Common.Interfaces;
 using Whoof.Domain.Common;
 
 namespace Whoof.Application.Common.Commands;
 
+[SuppressMessage("SonarLint", "S2436", Justification = "Abstraction tradeoffs")]
 public class BaseOwnedUpdateCommandHandler<TCommand, TDto, TEntity> : BaseUpdateCommandHandler<TCommand, TDto, TEntity>
     where TCommand : BaseUpdateCommand<TDto>
     where TDto : class

@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
@@ -12,6 +13,7 @@ using Whoof.Application.Common.Queries;
 
 namespace Whoof.Api.Common.Controllers;
 
+[SuppressMessage("SonarLint", "S2436", Justification = "Abstraction tradeoffs")]
 public abstract class BaseCrudController
     <TDto, TEntity, TCreateCommand, TUpdateCommand, TDeleteCommand, TGetByIdQuery, TGetListQuery, TSearch>
     : ControllerBase

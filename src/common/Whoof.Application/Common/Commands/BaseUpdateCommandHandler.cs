@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Diagnostics.CodeAnalysis;
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Whoof.Application.Common.Interfaces;
@@ -7,6 +8,7 @@ using Whoof.Domain.Common;
 
 namespace Whoof.Application.Common.Commands;
 
+[SuppressMessage("SonarLint", "S2436", Justification = "Abstraction tradeoffs")]
 public abstract class BaseUpdateCommandHandler<TCommand, TDto, TEntity> : IRequestHandler<TCommand, ServiceResult<TDto>>
     where TCommand : BaseUpdateCommand<TDto>
     where TDto : class

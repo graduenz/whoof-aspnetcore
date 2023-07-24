@@ -1,9 +1,11 @@
-﻿using AutoMapper;
+﻿using System.Diagnostics.CodeAnalysis;
+using AutoMapper;
 using Whoof.Application.Common.Interfaces;
 using Whoof.Domain.Common;
 
 namespace Whoof.Application.Common.Queries;
 
+[SuppressMessage("SonarLint", "S2436", Justification = "Abstraction tradeoffs")]
 public abstract class
     BaseOwnedGetByIdQueryHandler<TQuery, TDto, TEntity> : BaseGetByIdQueryHandler<TQuery, TDto, TEntity>
     where TQuery : BaseGetByIdQuery<TDto>
