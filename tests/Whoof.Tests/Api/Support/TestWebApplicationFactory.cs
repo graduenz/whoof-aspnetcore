@@ -32,7 +32,7 @@ public class TestWebApplicationFactory<TProgram>
             ReplaceDbConnectionString(services, configuration);
         });
 
-        builder.UseEnvironment("Development");
+        builder.UseEnvironment("Testing");
     }
 
     private void ReplaceDbConnectionString(IServiceCollection services, IConfiguration configuration)

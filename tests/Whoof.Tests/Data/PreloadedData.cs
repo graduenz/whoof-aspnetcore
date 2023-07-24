@@ -105,15 +105,18 @@ public static class PreloadedData
 
         for (var i = 0; i < 50; i++)
         {
-            var ownerId = Guid.NewGuid();
             var petName = petNames[random.Next(petNames.Count)];
-            var petType = petTypes[random.Next(petTypes.Count)];
+            
+            var petType = PetType.Unspecified;
+            while (petType == PetType.Unspecified)
+                petType = petTypes[random.Next(petTypes.Count)];
 
             var pet = new Pet
             {
                 Name = petName,
                 PetType = petType,
-                Vaccinations = new List<PetVaccination>()
+                Vaccinations = new List<PetVaccination>(),
+                OwnerId = "test@whoof.api"
             };
 
             var numVaccinations = random.Next(1, 5);

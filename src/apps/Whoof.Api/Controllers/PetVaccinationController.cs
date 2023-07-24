@@ -3,6 +3,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Whoof.Api.Common;
+using Whoof.Api.Common.Controllers;
 using Whoof.Application.PetVaccination;
 using Whoof.Application.PetVaccination.Dto;
 using Whoof.Domain.Entities;

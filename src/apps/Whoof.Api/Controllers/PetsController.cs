@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Whoof.Api.Common;
+using Whoof.Api.Common.Controllers;
 using Whoof.Application.Pets;
 using Whoof.Application.Pets.Dto;
 using Whoof.Domain.Entities;

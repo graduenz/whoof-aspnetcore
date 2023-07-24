@@ -16,7 +16,7 @@ public class CurrentUserService : ICurrentUserService
     
     public string GetCurrentUserUniqueId()
     {
-        var claim = CurrentUser.FindFirst(ClaimTypes.Email);
-        return claim?.Value ?? throw new Exception("Missing email claim in JWT");
+        var claim = CurrentUser.FindFirst("unique_id");
+        return claim?.Value ?? throw new Exception("Missing unique_id claim in JWT");
     }
 }

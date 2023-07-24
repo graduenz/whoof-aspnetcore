@@ -4,12 +4,13 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Whoof.Api.Common.Models;
 using Whoof.Application.Common.Commands;
 using Whoof.Application.Common.Dto;
 using Whoof.Application.Common.Models;
 using Whoof.Application.Common.Queries;
 
-namespace Whoof.Api.Common;
+namespace Whoof.Api.Common.Controllers;
 
 public abstract class BaseCrudController
     <TDto, TEntity, TCreateCommand, TUpdateCommand, TDeleteCommand, TGetByIdQuery, TGetListQuery, TSearch>
@@ -83,7 +84,7 @@ public abstract class BaseCrudController
 
         var result = await Mediator.Send(command);
         return result.Succeeded
-            ? CreatedAtAction("GetById", new { id = model.Id }, model)
+            ? CreatedAtAction("GetById", new { id = model.Id }, result.Data)
             : HandleServiceError(result.Error);
     }
 
@@ -133,10 +134,13 @@ public abstract class BaseCrudController
 
     protected virtual IActionResult HandleServiceError(ServiceError? error)
     {
-        var model = new
+        if (error == null)
+            throw new ArgumentNullException(nameof(error));
+
+        var model = new ErrorResult
         {
-            error?.Code,
-            error?.Message
+            Code = error.Code,
+            Message = error.Message
         };
 
         if (error == ServiceError.NotFound)
@@ -156,10 +160,10 @@ public abstract class BaseCrudController
                 k => k.Key,
                 v => v.Select(e => e.ErrorMessage).ToList());
 
-        return BadRequest(new
+        return BadRequest(new ValidationErrorsResult
         {
-            ServiceError.Validation.Code,
-            ServiceError.Validation.Message,
+            Code = ServiceError.Validation.Code,
+            Message = ServiceError.Validation.Message,
             Errors = errors
         });
     }

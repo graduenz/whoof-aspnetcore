@@ -32,13 +32,12 @@ public abstract class BaseUpdateCommandHandler<TCommand, TDto, TEntity> : IReque
 
         if (entity == null)
             return ServiceResult.Failed<TDto>(ServiceError.NotFound);
+        
+        DbContext.Entry(entity).State = EntityState.Detached;
 
         entity = Mapper.Map<TEntity>(request.Model);
 
         entity.Id = request.Id;
-
-        if (entity is BaseOwnedEntity owned2)
-            owned2.OwnerId = userId;
 
         await BeforeUpdateAsync(entity, userId, cancellationToken);
 

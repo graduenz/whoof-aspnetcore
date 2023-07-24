@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Whoof.Api.Common;
+using Whoof.Api.Common.Controllers;
 using Whoof.Application.Vaccines;
 using Whoof.Application.Vaccines.Dto;
 using Whoof.Domain.Entities;
