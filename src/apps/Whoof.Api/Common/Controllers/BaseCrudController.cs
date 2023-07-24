@@ -145,10 +145,10 @@ public abstract class BaseCrudController
             Message = error.Message
         };
 
-        if (error == ServiceError.NotFound)
+        if (error.Equals(ServiceError.NotFound))
             return NotFound(model);
 
-        if (error == ServiceError.ForbiddenError)
+        if (error.Equals(ServiceError.ForbiddenError))
             return Unauthorized(model);
 
         return BadRequest(model);
