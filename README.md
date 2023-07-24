@@ -12,7 +12,7 @@ Implementation of [Whoof API](https://gui.rdnz.dev/_/labs/whoof-api) using ASP.N
 - [x] Swagger
 - [x] Modular refactoring
 - [x] Adopt more scalable design practices
-- [ ] Auth0
+- [x] Auth0
 - [ ] Implement integration tests
 - [ ] Adapt [ASP.NET Core Integration Tests](https://gui.rdnz.dev/_/.net-engineering/asp.net-core-integration-tests) page to changes
 - [x] SonarCloud
