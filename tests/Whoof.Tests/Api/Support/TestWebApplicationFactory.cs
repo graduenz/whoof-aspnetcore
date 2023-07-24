@@ -22,6 +22,7 @@ public class TestWebApplicationFactory<TProgram>
     {
         var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
+            .AddJsonFile("appsettings.Testing.json")
             .AddEnvironmentVariables()
             .Build();
 

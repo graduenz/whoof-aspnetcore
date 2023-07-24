@@ -19,6 +19,14 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Include="..\..\..\appsettings.json">
+        <Link>appsettings.json</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="..\..\..\appsettings.Testing.json">
+        <Link>appsettings.Testing.json</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
       <Content Include="..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>

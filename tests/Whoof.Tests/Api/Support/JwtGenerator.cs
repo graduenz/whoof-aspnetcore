@@ -11,6 +11,7 @@ public static class JwtGenerator
     private static readonly Lazy<IConfigurationRoot> Configuration = new(() =>
         new ConfigurationBuilder()
         .AddJsonFile("appsettings.json")
+        .AddJsonFile("appsettings.Testing.json")
         .AddEnvironmentVariables()
         .Build());
     
