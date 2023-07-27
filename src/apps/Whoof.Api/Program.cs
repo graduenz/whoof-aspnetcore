@@ -55,8 +55,6 @@ app.UseCors(c => c
     .AllowAnyMethod()
     .AllowAnyOrigin());
 
-app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
