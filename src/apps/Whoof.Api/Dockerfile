@@ -5,8 +5,6 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["src/apps/Whoof.Api/Whoof.Api.csproj", "src/apps/Whoof.Api/"]
-RUN dotnet restore "src/apps/Whoof.Api/Whoof.Api.csproj"
 COPY . .
 WORKDIR "/src/src/apps/Whoof.Api"
 RUN dotnet build "Whoof.Api.csproj" -c Release -o /app/build
