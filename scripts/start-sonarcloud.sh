@@ -3,9 +3,6 @@
 # https://www.willianantunes.com/blog/2021/05/production-ready-shell-startup-scripts-the-set-builtin/
 set -eu -o pipefail
 
-# This var is temporary and can be removed once removed from C# project
-export IS_SONAR=1
-
 if [ -z "$1" ]; then
   echo "Please provide the sonar token 👀"
   exit 0
@@ -35,9 +32,6 @@ dotnet sonarscanner begin \
 
 echo "### Building project..."
 dotnet build
-
-echo "### Starting tests..."
-./scripts/start-tests.sh
 
 # Now we can collect the results 👍
 dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"

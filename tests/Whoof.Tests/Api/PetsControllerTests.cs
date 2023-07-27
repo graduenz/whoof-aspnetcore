@@ -1,9 +1,11 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Whoof.Api.Entities;
-using Whoof.Api.Enums;
-using Whoof.Api.Models;
+using Whoof.Api.Common.Models;
+using Whoof.Application.Common.Models;
+using Whoof.Domain.Entities;
+using Whoof.Domain.Enums;
 using Whoof.Tests.Api.Support;
 using Whoof.Tests.Extensions;
 
@@ -13,20 +15,28 @@ public class PetsControllerTests : BaseControllerTests
 {
     private static readonly Guid IdPetWithEmptyName = Guid.NewGuid();
     private static readonly Guid IdPetWithUnspecifiedType = Guid.NewGuid();
-    
+
+    public PetsControllerTests()
+    {
+        HttpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", JwtGenerator.GenerateBasicJwt());
+    }
+
     public static IEnumerable<object[]> MemberData_Pets_And_ValidationErrors()
     {
-        yield return new object[] {
+        yield return new object[]
+        {
             new Pet { Id = IdPetWithEmptyName, Name = "", PetType = PetType.Capybara },
             new[] { "'Name' must not be empty." }
         };
-        
-        yield return new object[] {
+
+        yield return new object[]
+        {
             new Pet { Id = IdPetWithUnspecifiedType, Name = "Qwerty", PetType = PetType.Unspecified },
             new[] { "'Pet Type' must not be equal to 'Unspecified'." }
         };
     }
-    
+
     [Theory]
     [InlineData(1, 20)]
     [InlineData(2, 20)]
@@ -37,7 +47,7 @@ public class PetsControllerTests : BaseControllerTests
         var result = await HttpClient.GetFromJsonAsync<PaginatedList<Pet>>(
             $"/v1/pets?pageIndex={pageIndex}&pageSize={20}", JsonOptions
         );
-        
+
         // Assert
         result.Should().NotBeNull();
         result.PageIndex.Should().Be(pageIndex);
@@ -50,17 +60,18 @@ public class PetsControllerTests : BaseControllerTests
     {
         // Arrange
         var expectedPet = DbContext.Pets.First();
-        
+
         // Act
         var actualPet = await HttpClient.GetFromJsonAsync<Pet>(
             $"/v1/pets/{expectedPet.Id}", JsonOptions
         );
-        
+
         // Assert
         actualPet.Should()
             .NotBeNull().And
             .BeEquivalentTo(expectedPet, c => c
                 .ExcludingBaseFields()
+                .ExcludingOwnershipFields()
                 .Excluding(m => m.Vaccinations));
     }
 
@@ -71,10 +82,10 @@ public class PetsControllerTests : BaseControllerTests
         var id = Guid.NewGuid();
         while (DbContext.Pets.Any(m => m.Id == id))
             id = Guid.NewGuid();
-        
+
         // Act
         var response = await HttpClient.GetAsync($"/v1/pets/{id}");
-        
+
         // Assert
         response.Should().Be404NotFound();
     }
@@ -90,10 +101,10 @@ public class PetsControllerTests : BaseControllerTests
         };
 
         var beforeCount = await DbContext.Pets.CountAsync();
-        
+
         // Act
         var response = await HttpClient.PostAsJsonAsync("v1/pets/", pet, JsonOptions);
-        
+
         // Assert
         response.Should()
             .NotBeNull().And
@@ -115,10 +126,10 @@ public class PetsControllerTests : BaseControllerTests
     {
         // Arrange
         var beforeCount = await DbContext.Pets.CountAsync();
-        
+
         // Act
         var response = await HttpClient.PostAsJsonAsync("v1/pets/", pet, JsonOptions);
-        
+
         // Assert
         response.Should()
             .NotBeNull().And
@@ -126,13 +137,14 @@ public class PetsControllerTests : BaseControllerTests
 
         var result = await response.Content.ReadFromJsonAsync<ValidationErrorsResult>(JsonOptions);
         result.Should().NotBeNull();
-        result.Type.Should().Be("VALIDATION_ERRORS");
-        result.Errors.Select(m => m.ErrorMessage).Should()
+        result.Code.Should().Be(ServiceError.Validation.Code);
+        result.Message.Should().Be(ServiceError.Validation.Message);
+        result.Errors.SelectMany(m => m.Value).Should()
             .BeEquivalentTo(expectedErrors);
-        
+
         var afterCount = await DbContext.Pets.CountAsync();
         afterCount.Should().Be(beforeCount);
-        
+
         DbContext.Pets.Should().NotContain(m => m.Id == pet.Id);
     }
 
@@ -143,16 +155,17 @@ public class PetsControllerTests : BaseControllerTests
         var pet = DbContext.Pets.First();
         pet.Vaccinations = null;
         pet.Name = "Updated";
-        
+
         // Act
         var response = await HttpClient.PutAsJsonAsync($"/v1/pets/{pet.Id}", pet, JsonOptions);
-        
+
         // Assert
         response.Should()
             .NotBeNull().And
             .Be200Ok().And
             .BeAs(pet, c => c
-                .ExcludingBaseFields());
+                .ExcludingBaseFields()
+                .ExcludingOwnershipFields());
 
         pet = DbContext.Pets.First(m => m.Id == pet.Id);
         pet.Name.Should().Be("Updated");
@@ -169,10 +182,10 @@ public class PetsControllerTests : BaseControllerTests
         var pet = DbContext.Pets.First();
         pet.Vaccinations = null;
         pet.Id = id;
-        
+
         // Act
         var response = await HttpClient.PutAsJsonAsync($"/v1/pets/{pet.Id}", pet, JsonOptions);
-        
+
         // Assert
         response.Should().Be404NotFound();
     }
@@ -188,10 +201,10 @@ public class PetsControllerTests : BaseControllerTests
             Name = "Dollar",
             PetType = PetType.Dog
         });
-        
+
         // Act
         var response = await HttpClient.PutAsJsonAsync($"v1/pets/{pet.Id}", pet, JsonOptions);
-        
+
         // Assert
         response.Should()
             .NotBeNull().And
@@ -199,20 +212,21 @@ public class PetsControllerTests : BaseControllerTests
 
         var result = await response.Content.ReadFromJsonAsync<ValidationErrorsResult>(JsonOptions);
         result.Should().NotBeNull();
-        result.Type.Should().Be("VALIDATION_ERRORS");
-        result.Errors.Select(m => m.ErrorMessage).Should()
+        result.Code.Should().Be(ServiceError.Validation.Code);
+        result.Message.Should().Be(ServiceError.Validation.Message);
+        result.Errors.SelectMany(m => m.Value).Should()
             .BeEquivalentTo(expectedErrors);
     }
-    
+
     [Fact]
     public async Task DeleteOneAsync_WithExistingPet_DeletesAsExpected()
     {
         // Arrange
         var pet = DbContext.Pets.First();
-        
+
         // Act
         var response = await HttpClient.DeleteAsync($"/v1/pets/{pet.Id}");
-        
+
         // Assert
         response.Should().Be200Ok();
 
@@ -226,10 +240,10 @@ public class PetsControllerTests : BaseControllerTests
         var id = Guid.NewGuid();
         while (DbContext.Pets.Any(m => m.Id == id))
             id = Guid.NewGuid();
-        
+
         // Act
         var response = await HttpClient.DeleteAsync($"/v1/pets/{id}");
-        
+
         // Assert
         response.Should().Be404NotFound();
     }

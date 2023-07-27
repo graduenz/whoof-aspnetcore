@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
-using Whoof.Api.Persistence;
+using Whoof.Infrastructure.Persistence;
 using Whoof.Tests.Data;
 
 namespace Whoof.Tests.Api.Support;

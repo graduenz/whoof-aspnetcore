@@ -26,7 +26,18 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Whoof.Api\Whoof.Api.csproj" />
+        <Content Include="..\..\appsettings.json">
+            <Link>appsettings.json</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\appsettings.Testing.json">
+            <Link>appsettings.Testing.json</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\apps\Whoof.Api\Whoof.Api.csproj" />
     </ItemGroup>
 
 </Project>

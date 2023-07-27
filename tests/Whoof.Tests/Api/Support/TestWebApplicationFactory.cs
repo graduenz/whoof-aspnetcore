@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Whoof.Api.Persistence;
+using Whoof.Infrastructure.Persistence;
 
 namespace Whoof.Tests.Api.Support;
 
@@ -12,18 +12,17 @@ public class TestWebApplicationFactory<TProgram>
     : WebApplicationFactory<TProgram> where TProgram : class
 {
     private readonly string _exclusiveDbName;
-    private readonly bool _isSonar;
 
     public TestWebApplicationFactory(string exclusiveDbName)
     {
         _exclusiveDbName = exclusiveDbName;
-        _isSonar = Environment.GetEnvironmentVariable("IS_SONAR")?.Equals("1") ?? false;
     }
     
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
+            .AddJsonFile("appsettings.Testing.json")
             .AddEnvironmentVariables()
             .Build();
 
@@ -34,7 +33,7 @@ public class TestWebApplicationFactory<TProgram>
             ReplaceDbConnectionString(services, configuration);
         });
 
-        builder.UseEnvironment("Development");
+        builder.UseEnvironment("Testing");
     }
 
     private void ReplaceDbConnectionString(IServiceCollection services, IConfiguration configuration)
@@ -47,20 +46,10 @@ public class TestWebApplicationFactory<TProgram>
         
         services.AddDbContext<AppDbContext>(options =>
         {
-            // TODO: Change to always use PostgreSQL
-            if (_isSonar)
-            {
-                // Tests with memory db when running tests
-                options.UseInMemoryDatabase(_exclusiveDbName);
-            }
-            else
-            {
-                // Test with postgres when running tests locally
-                var connstrBuilder = new DbConnectionStringBuilder();
-                connstrBuilder.ConnectionString = configuration["ConnectionStrings:AppDbContext"];
-                connstrBuilder["Database"] = _exclusiveDbName;
-                options.UseNpgsql(connstrBuilder.ConnectionString);
-            }
+            var connstrBuilder = new DbConnectionStringBuilder();
+            connstrBuilder.ConnectionString = configuration["ConnectionStrings:AppDbContext"];
+            connstrBuilder["Database"] = _exclusiveDbName;
+            options.UseNpgsql(connstrBuilder.ConnectionString);
         });
     }
 }
