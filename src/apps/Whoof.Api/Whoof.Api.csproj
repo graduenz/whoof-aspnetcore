@@ -33,8 +33,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\common\Whoof.Application\Whoof.Application.csproj" />
       <ProjectReference Include="..\..\common\Whoof.Infrastructure\Whoof.Infrastructure.csproj" />
+      <ProjectReference Include="..\..\common\Whoof.Migrations\Whoof.Migrations.csproj" />
     </ItemGroup>
 
 </Project>

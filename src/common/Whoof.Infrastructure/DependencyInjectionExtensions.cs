@@ -18,7 +18,8 @@ public static class DependencyInjectionExtensions
     public static IServiceCollection
         AddInfrastructure(this IServiceCollection services, IConfiguration configuration) => services
         .AddDbContext<AppDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("AppDbContext"))
+            options.UseNpgsql(configuration.GetConnectionString("AppDbContext"),
+                b => b.MigrationsAssembly("Whoof.Migrations"))
         )
         .AddScoped<IAppDbContext>(provider =>
             provider.GetService<AppDbContext>() ?? throw new Exception($"Couldn't resolve {nameof(AppDbContext)}"))
@@ -26,7 +27,7 @@ public static class DependencyInjectionExtensions
         .AddAdapters()
         .AddMediatR()
         .AddAutoMapper();
-    
+
     private static IServiceCollection AddAdapters(this IServiceCollection services) => services
         .AddScoped<IFilterAdapter, FilterAdapter>()
         .AddScoped<ISortAdapter, SortAdapter>();
@@ -34,7 +35,7 @@ public static class DependencyInjectionExtensions
     private static IServiceCollection AddMediatR(this IServiceCollection services) => services
         .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreatePetCommand).Assembly))
         .AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
-    
+
     private static IServiceCollection AddAutoMapper(this IServiceCollection services) => services
         .AddAutoMapper(typeof(Domain2DtoProfile));
 }
