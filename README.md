@@ -17,5 +17,5 @@ Implementation of [Whoof API](https://gui.rdnz.dev/_/labs/whoof-api) using ASP.N
 - [ ] Adapt [ASP.NET Core Integration Tests](https://gui.rdnz.dev/_/.net-engineering/asp.net-core-integration-tests) page to project changes
 - [x] SonarCloud
 - [x] CI with GitHub Actions
-- [ ] CD with GitHub Actions
-- [ ] Launch
+- [x] ~~CD with GitHub Actions~~ (solved with CapRover's webhook)
+- [x] Launch
