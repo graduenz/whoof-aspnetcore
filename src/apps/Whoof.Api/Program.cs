@@ -58,9 +58,12 @@ builder.Host.UseSerilog();
 
 var app = builder.Build();
 
-var dbContext = app.Services.GetRequiredService<AppDbContext>();
-dbContext.Database.Migrate();
-Log.Logger.Information("Database has been successfully migrated");
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();
+    Log.Logger.Information("Database has been successfully migrated");
+}
 
 app.UseSwagger();
 app.UseSwaggerUI();
