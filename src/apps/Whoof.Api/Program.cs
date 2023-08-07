@@ -1,9 +1,11 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Whoof.Api;
 using Whoof.Infrastructure;
+using Whoof.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +18,7 @@ Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
 
-Log.Logger.Information("Initializing {App}", Assembly.GetExecutingAssembly().FullName);
+Log.Logger.Information("Initializing {App}", Assembly.GetExecutingAssembly().GetName().Name);
 
 builder.Services.AddControllers()
     .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
@@ -55,6 +57,10 @@ builder.Services
 builder.Host.UseSerilog();
 
 var app = builder.Build();
+
+var dbContext = app.Services.GetRequiredService<AppDbContext>();
+dbContext.Database.Migrate();
+Log.Logger.Information("Database has been successfully migrated");
 
 app.UseSwagger();
 app.UseSwaggerUI();
