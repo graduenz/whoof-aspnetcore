@@ -12,7 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration
     .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json"))
     .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-        $"appsettings.{builder.Environment.EnvironmentName}.json"), optional: true);
+        $"appsettings.{builder.Environment.EnvironmentName}.json"), optional: true)
+    .AddEnvironmentVariables();
 
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
