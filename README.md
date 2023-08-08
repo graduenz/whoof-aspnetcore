@@ -1,6 +1,13 @@
 whoof-aspnetcore
 ---
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=graduenz_whoof-aspnetcore&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=graduenz_whoof-aspnetcore)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=graduenz_whoof-aspnetcore&metric=bugs)](https://sonarcloud.io/summary/new_code?id=graduenz_whoof-aspnetcore)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=graduenz_whoof-aspnetcore&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=graduenz_whoof-aspnetcore)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=graduenz_whoof-aspnetcore&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=graduenz_whoof-aspnetcore)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=graduenz_whoof-aspnetcore&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=graduenz_whoof-aspnetcore)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=graduenz_whoof-aspnetcore&metric=coverage)](https://sonarcloud.io/summary/new_code?id=graduenz_whoof-aspnetcore)
+
 ## Description
 
 Implementation of [Whoof API](https://gui.rdnz.dev/_/labs/whoof-api) using ASP.NET Core.
@@ -53,7 +60,7 @@ This is a simple todo list only to remember what needs to be done.
 - [x] Modular refactoring
 - [x] Adopt more scalable design practices
 - [x] Auth0
-- [ ] Implement integration tests
+- [x] Implement integration tests
 - [ ] Adapt [ASP.NET Core Integration Tests](https://gui.rdnz.dev/_/.net-engineering/asp.net-core-integration-tests) page to project changes
 - [x] SonarCloud
 - [x] CI with GitHub Actions
