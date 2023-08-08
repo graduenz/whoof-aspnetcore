@@ -28,7 +28,7 @@ dotnet sonarscanner begin \
     /d:sonar.host.url="https://sonarcloud.io" \
     /d:sonar.cs.opencover.reportsPaths="**/*/coverage.opencover.xml" \
     /d:sonar.cs.vstest.reportsPaths="**/*/*.trx" \
-    /d:sonar.exclusions="samples/**/*.cs"
+    /d:sonar.exclusions="samples/**/*.cs,src/common/Whoof.Migrations/**/*.*"
 
 echo "### Building project..."
 dotnet build

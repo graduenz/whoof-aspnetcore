@@ -1,4 +1,5 @@
 ﻿using FluentAssertions.Equivalency;
+using Whoof.Application.Common.Dto;
 using Whoof.Domain.Common;
 
 namespace Whoof.Tests.Extensions;
@@ -7,7 +8,7 @@ public static class AssertionExtensions
 {
     public static EquivalencyAssertionOptions<TExpectation> ExcludingBaseFields<TExpectation>(
         this EquivalencyAssertionOptions<TExpectation> options)
-        where TExpectation : BaseEntity
+        where TExpectation : BaseDto
     {
         return options.Excluding(m => m.Id)
             .Excluding(m => m.CreatedAt)
@@ -18,7 +19,7 @@ public static class AssertionExtensions
     
     public static EquivalencyAssertionOptions<TExpectation> ExcludingOwnershipFields<TExpectation>(
         this EquivalencyAssertionOptions<TExpectation> options)
-        where TExpectation : BaseOwnedEntity
+        where TExpectation : BaseOwnedDto
     {
         return options.Excluding(m => m.OwnerId);
     }
