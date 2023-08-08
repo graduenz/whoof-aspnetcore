@@ -42,7 +42,7 @@ public class PetsControllerTests : BaseControllerTests
     [InlineData(1, 20)]
     [InlineData(2, 20)]
     [InlineData(3, 10)]
-    public async Task GetManyAsync_WithDefaultData_ReturnsAsExpected(int pageIndex, int expectedPageSize)
+    public async Task GetPaginatedListAsync_WithDefaultData_ReturnsAsExpected(int pageIndex, int expectedPageSize)
     {
         // Act
         var result = await HttpClient.GetFromJsonAsync<PaginatedList<PetDto>>(
@@ -57,7 +57,7 @@ public class PetsControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task GetOneAsync_WhenPetExists_ReturnsAsExpected()
+    public async Task GetByIdAsync_WhenPetExists_ReturnsAsExpected()
     {
         // Arrange
         var expectedPet = Mapper.Map<PetDto>(DbContext.Pets.First());
@@ -76,7 +76,7 @@ public class PetsControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task GetOneAsync_WhenPetDoesntExist_ReturnsNotFound()
+    public async Task GetByIdAsync_WhenPetDoesntExist_ReturnsNotFound()
     {
         // Arrange
         var id = Guid.NewGuid();
@@ -91,7 +91,7 @@ public class PetsControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task AddOneAsync_WithValidFields_AddsAsExpected()
+    public async Task PostAsync_WithValidFields_AddsAsExpected()
     {
         // Arrange
         var pet = new PetDto
@@ -123,7 +123,7 @@ public class PetsControllerTests : BaseControllerTests
 
     [Theory]
     [MemberData(nameof(MemberData_Pets_And_ValidationErrors))]
-    public async Task AddOneAsync_WithInvalidData_DoesntAdd(PetDto pet, string[] expectedErrors)
+    public async Task PostAsync_WithInvalidData_DoesntAdd(PetDto pet, string[] expectedErrors)
     {
         // Arrange
         var beforeCount = await DbContext.Pets.CountAsync();
@@ -150,7 +150,7 @@ public class PetsControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task UpdateOneAsync_WithValidData_UpdatesAsExpected()
+    public async Task PutAsync_WithValidData_UpdatesAsExpected()
     {
         // Arrange
         var pet = Mapper.Map<PetDto>(DbContext.Pets.AsNoTracking().First());
@@ -172,15 +172,14 @@ public class PetsControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task UpdateOneAsync_WithNonexistentPet_ReturnsNotFound()
+    public async Task PutAsync_WithNonexistentPet_ReturnsNotFound()
     {
         // Arrange
         var id = Guid.NewGuid();
         while (DbContext.Pets.Any(m => m.Id == id))
             id = Guid.NewGuid();
 
-        var pet = DbContext.Pets.First();
-        pet.Vaccinations = null;
+        var pet = Mapper.Map<PetDto>(DbContext.Pets.First());
         pet.Id = id;
 
         // Act
@@ -192,7 +191,7 @@ public class PetsControllerTests : BaseControllerTests
 
     [Theory]
     [MemberData(nameof(MemberData_Pets_And_ValidationErrors))]
-    public async Task UpdateOneAsync_WithInvalidData_DoesntUpdate(PetDto pet, string[] expectedErrors)
+    public async Task PutAsync_WithInvalidData_DoesntUpdate(PetDto pet, string[] expectedErrors)
     {
         // Assert
         await DbContext.Pets.AddAsync(new Pet
@@ -219,7 +218,7 @@ public class PetsControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task DeleteOneAsync_WithExistingPet_DeletesAsExpected()
+    public async Task DeleteAsync_WithExistingPet_DeletesAsExpected()
     {
         // Arrange
         var pet = DbContext.Pets.First();
@@ -234,7 +233,7 @@ public class PetsControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task DeleteOneAsync_WithNonexistentPet_ReturnsNotFound()
+    public async Task DeleteAsync_WithNonexistentPet_ReturnsNotFound()
     {
         // Arrange
         var id = Guid.NewGuid();

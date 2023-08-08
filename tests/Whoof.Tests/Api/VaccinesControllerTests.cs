@@ -48,7 +48,7 @@ public class VaccinesControllerTests : BaseControllerTests
     [Theory]
     [InlineData(1, 10)]
     [InlineData(2, 1)]
-    public async Task GetManyAsync_WithDefaultData_ReturnsAsExpected(int pageIndex, int expectedPageSize)
+    public async Task GetPaginatedListAsync_WithDefaultData_ReturnsAsExpected(int pageIndex, int expectedPageSize)
     {
         // Act
         var result = await HttpClient.GetFromJsonAsync<PaginatedList<VaccineDto>>(
@@ -63,7 +63,7 @@ public class VaccinesControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task GetOneAsync_WhenVaccineExists_ReturnsAsExpected()
+    public async Task GetByIdAsync_WhenVaccineExists_ReturnsAsExpected()
     {
         // Arrange
         var expectedVaccine = Mapper.Map<VaccineDto>(DbContext.Vaccines.First());
@@ -81,7 +81,7 @@ public class VaccinesControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task GetOneAsync_WhenVaccineDoesntExist_ReturnsNotFound()
+    public async Task GetByIdAsync_WhenVaccineDoesntExist_ReturnsNotFound()
     {
         // Arrange
         var id = Guid.NewGuid();
@@ -96,7 +96,7 @@ public class VaccinesControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task AddOneAsync_WithValidFields_AddsAsExpected()
+    public async Task PostAsync_WithValidFields_AddsAsExpected()
     {
         // Arrange
         var vaccine = new VaccineDto
@@ -128,7 +128,7 @@ public class VaccinesControllerTests : BaseControllerTests
 
     [Theory]
     [MemberData(nameof(MemberData_Vaccines_And_ValidationErrors))]
-    public async Task AddOneAsync_WithInvalidData_DoesntAdd(VaccineDto vaccine, string[] expectedErrors)
+    public async Task PostAsync_WithInvalidData_DoesntAdd(VaccineDto vaccine, string[] expectedErrors)
     {
         // Arrange
         var beforeCount = await DbContext.Vaccines.CountAsync();
@@ -155,7 +155,7 @@ public class VaccinesControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task UpdateOneAsync_WithValidData_UpdatesAsExpected()
+    public async Task PutAsync_WithValidData_UpdatesAsExpected()
     {
         // Arrange
         var vaccine = Mapper.Map<VaccineDto>(DbContext.Vaccines.AsNoTracking().First());
@@ -176,15 +176,14 @@ public class VaccinesControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task UpdateOneAsync_WithNonexistentVaccine_ReturnsNotFound()
+    public async Task PutAsync_WithNonexistentVaccine_ReturnsNotFound()
     {
         // Arrange
         var id = Guid.NewGuid();
         while (DbContext.Vaccines.Any(m => m.Id == id))
             id = Guid.NewGuid();
 
-        var vaccine = DbContext.Vaccines.First();
-        vaccine.Vaccinations = null;
+        var vaccine = Mapper.Map<VaccineDto>(DbContext.Vaccines.First());
         vaccine.Id = id;
 
         // Act
@@ -196,7 +195,7 @@ public class VaccinesControllerTests : BaseControllerTests
 
     [Theory]
     [MemberData(nameof(MemberData_Vaccines_And_ValidationErrors))]
-    public async Task UpdateOneAsync_WithInvalidData_DoesntUpdate(VaccineDto vaccine, string[] expectedErrors)
+    public async Task PutAsync_WithInvalidData_DoesntUpdate(VaccineDto vaccine, string[] expectedErrors)
     {
         // Assert
         await DbContext.Vaccines.AddAsync(new Vaccine
@@ -223,7 +222,7 @@ public class VaccinesControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task DeleteOneAsync_WithExistingVaccine_DeletesAsExpected()
+    public async Task DeleteAsync_WithExistingVaccine_DeletesAsExpected()
     {
         // Arrange
         var vaccine = DbContext.Vaccines.First();
@@ -238,7 +237,7 @@ public class VaccinesControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task DeleteOneAsync_WithNonexistentVaccine_ReturnsNotFound()
+    public async Task DeleteAsync_WithNonexistentVaccine_ReturnsNotFound()
     {
         // Arrange
         var id = Guid.NewGuid();
