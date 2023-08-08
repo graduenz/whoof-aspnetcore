@@ -25,8 +25,7 @@ public class PetVaccinationController : BaseCrudController<PetVaccinationDto, Pe
     [NonAction]
     public override Task<IActionResult> GetPaginatedListAsync(PetVaccinationSearch request)
     {
-        // This action is omitted, listing pet vaccinations requires usage of the route below (by pet id)
-        return Task.FromResult<IActionResult>(NotFound());
+        throw new NotSupportedException();
     }
 
     [HttpGet("pet/{petId:guid}")]

@@ -3,10 +3,12 @@ using System.Net.Http.Json;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Whoof.Api.Common.Models;
+using Whoof.Api.Controllers;
 using Whoof.Application.Common.Models;
 using Whoof.Application.PetVaccination.Dto;
 using Whoof.Domain.Entities;
 using Whoof.Domain.Enums;
+using Whoof.Infrastructure.PetVaccination;
 using Whoof.Tests.Api.Support;
 using Whoof.Tests.Extensions;
 
@@ -75,13 +77,26 @@ public class PetVaccinationControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task GetPaginatedListAsync_ReturnsMethodNotAllowed()
+    public async Task GetPaginatedListAsync_WithHttpClient_ReturnsMethodNotAllowed()
     {
         // Act
         var response = await HttpClient.GetAsync("/v1/petVaccination");
 
         // Assert
         response.Should().Be405MethodNotAllowed();
+    }
+    
+    [Fact]
+    public async Task GetPaginatedListAsync_RegularMethodCall_Throws()
+    {
+        // Arrange
+        var controller = new PetVaccinationController(null, null);
+        
+        // Act
+        var act = async () => await controller.GetPaginatedListAsync(new PetVaccinationSearch());
+        
+        // Arrange
+        await act.Should().ThrowAsync<NotSupportedException>();
     }
 
     [Fact]
