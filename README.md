@@ -63,7 +63,6 @@ This is a simple todo list only to remember what needs to be done.
 - [x] Implement integration tests
 - [x] SonarCloud
 - [x] CI with GitHub Actions
-- ~~[ ] CD with GitHub Actions~~
 - [x] CD with CapRover's webhook
 - [x] Logging
 - [x] Launch
