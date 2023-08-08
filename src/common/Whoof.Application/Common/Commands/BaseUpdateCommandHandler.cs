@@ -34,12 +34,14 @@ public abstract class BaseUpdateCommandHandler<TCommand, TDto, TEntity> : IReque
 
         if (entity == null)
             return ServiceResult.Failed<TDto>(ServiceError.NotFound);
-        
-        DbContext.Entry(entity).State = EntityState.Detached;
+
+        var old = entity;
 
         entity = Mapper.Map<TEntity>(request.Model);
 
         entity.Id = request.Id;
+        entity.CreatedAt = old.CreatedAt;
+        entity.CreatedBy = old.CreatedBy;
 
         await BeforeUpdateAsync(entity, userId, cancellationToken);
 
@@ -61,8 +63,10 @@ public abstract class BaseUpdateCommandHandler<TCommand, TDto, TEntity> : IReque
     protected virtual async Task<TEntity?> GetEntityAsync(TCommand request, string userId,
         CancellationToken cancellationToken)
     {
-        return await DbContext.Set<TEntity>().FirstOrDefaultAsync(
-            m => m.Id == request.Id,
-            cancellationToken);
+        return await DbContext.Set<TEntity>()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(
+                m => m.Id == request.Id,
+                cancellationToken);
     }
 }
