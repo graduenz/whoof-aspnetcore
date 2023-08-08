@@ -51,7 +51,7 @@ public class PetsControllerTests : BaseControllerTests
 
         // Assert
         result.Should().NotBeNull();
-        result.PageIndex.Should().Be(pageIndex);
+        result!.PageIndex.Should().Be(pageIndex);
         result.TotalPages.Should().Be(3);
         result.Items.Should().HaveCount(expectedPageSize);
     }
@@ -118,7 +118,7 @@ public class PetsControllerTests : BaseControllerTests
         var afterCount = await DbContext.Pets.CountAsync();
         afterCount.Should().Be(beforeCount + 1);
 
-        DbContext.Pets.Should().Contain(m => m.Id == pet.Id);
+        DbContext.Pets.Should().Contain(m => m.Id == pet!.Id);
     }
 
     [Theory]
@@ -138,9 +138,9 @@ public class PetsControllerTests : BaseControllerTests
 
         var result = await response.Content.ReadFromJsonAsync<ValidationErrorsResult>(JsonOptions);
         result.Should().NotBeNull();
-        result.Code.Should().Be(ServiceError.Validation.Code);
+        result!.Code.Should().Be(ServiceError.Validation.Code);
         result.Message.Should().Be(ServiceError.Validation.Message);
-        result.Errors.SelectMany(m => m.Value).Should()
+        result.Errors!.SelectMany(m => m.Value).Should()
             .BeEquivalentTo(expectedErrors);
 
         var afterCount = await DbContext.Pets.CountAsync();
@@ -211,9 +211,9 @@ public class PetsControllerTests : BaseControllerTests
 
         var result = await response.Content.ReadFromJsonAsync<ValidationErrorsResult>(JsonOptions);
         result.Should().NotBeNull();
-        result.Code.Should().Be(ServiceError.Validation.Code);
+        result!.Code.Should().Be(ServiceError.Validation.Code);
         result.Message.Should().Be(ServiceError.Validation.Message);
-        result.Errors.SelectMany(m => m.Value).Should()
+        result.Errors!.SelectMany(m => m.Value).Should()
             .BeEquivalentTo(expectedErrors);
     }
 

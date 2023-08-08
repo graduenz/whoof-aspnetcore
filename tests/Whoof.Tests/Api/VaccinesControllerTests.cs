@@ -57,7 +57,7 @@ public class VaccinesControllerTests : BaseControllerTests
 
         // Assert
         result.Should().NotBeNull();
-        result.PageIndex.Should().Be(pageIndex);
+        result!.PageIndex.Should().Be(pageIndex);
         result.TotalPages.Should().Be(2);
         result.Items.Should().HaveCount(expectedPageSize);
     }
@@ -123,7 +123,7 @@ public class VaccinesControllerTests : BaseControllerTests
         var afterCount = await DbContext.Vaccines.CountAsync();
         afterCount.Should().Be(beforeCount + 1);
 
-        DbContext.Vaccines.Should().Contain(m => m.Id == vaccine.Id);
+        DbContext.Vaccines.Should().Contain(m => m.Id == vaccine!.Id);
     }
 
     [Theory]
@@ -143,9 +143,9 @@ public class VaccinesControllerTests : BaseControllerTests
 
         var result = await response.Content.ReadFromJsonAsync<ValidationErrorsResult>(JsonOptions);
         result.Should().NotBeNull();
-        result.Code.Should().Be(ServiceError.Validation.Code);
+        result!.Code.Should().Be(ServiceError.Validation.Code);
         result.Message.Should().Be(ServiceError.Validation.Message);
-        result.Errors.SelectMany(m => m.Value).Should()
+        result.Errors!.SelectMany(m => m.Value).Should()
             .BeEquivalentTo(expectedErrors);
 
         var afterCount = await DbContext.Vaccines.CountAsync();
@@ -215,9 +215,9 @@ public class VaccinesControllerTests : BaseControllerTests
 
         var result = await response.Content.ReadFromJsonAsync<ValidationErrorsResult>(JsonOptions);
         result.Should().NotBeNull();
-        result.Code.Should().Be(ServiceError.Validation.Code);
+        result!.Code.Should().Be(ServiceError.Validation.Code);
         result.Message.Should().Be(ServiceError.Validation.Message);
-        result.Errors.SelectMany(m => m.Value).Should()
+        result.Errors!.SelectMany(m => m.Value).Should()
             .BeEquivalentTo(expectedErrors);
     }
 
