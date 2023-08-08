@@ -61,9 +61,12 @@ This is a simple todo list only to remember what needs to be done.
 - [x] Adopt more scalable design practices
 - [x] Auth0
 - [x] Implement integration tests
-- [ ] Adapt [ASP.NET Core Integration Tests](https://gui.rdnz.dev/_/.net-engineering/asp.net-core-integration-tests) page to project changes
 - [x] SonarCloud
 - [x] CI with GitHub Actions
-- [x] ~~CD with GitHub Actions~~ CD with CapRover's webhook
+- ~~[ ] CD with GitHub Actions~~
+- [x] CD with CapRover's webhook
 - [x] Logging
 - [x] Launch
+- [ ] API Gateway
+- [ ] Public docs
+- [ ] Adapt [ASP.NET Core Integration Tests](https://gui.rdnz.dev/_/.net-engineering/asp.net-core-integration-tests) page to project changes
