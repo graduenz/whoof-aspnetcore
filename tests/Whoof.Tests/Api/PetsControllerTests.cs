@@ -4,6 +4,7 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Whoof.Api.Common.Models;
 using Whoof.Application.Common.Models;
+using Whoof.Application.Pets.Dto;
 using Whoof.Domain.Entities;
 using Whoof.Domain.Enums;
 using Whoof.Tests.Api.Support;
@@ -26,13 +27,13 @@ public class PetsControllerTests : BaseControllerTests
     {
         yield return new object[]
         {
-            new Pet { Id = IdPetWithEmptyName, Name = "", PetType = PetType.Capybara },
+            new PetDto { Id = IdPetWithEmptyName, Name = "", PetType = PetType.Capybara },
             new[] { "'Name' must not be empty." }
         };
 
         yield return new object[]
         {
-            new Pet { Id = IdPetWithUnspecifiedType, Name = "Qwerty", PetType = PetType.Unspecified },
+            new PetDto { Id = IdPetWithUnspecifiedType, Name = "Qwerty", PetType = PetType.Unspecified },
             new[] { "'Pet Type' must not be equal to 'Unspecified'." }
         };
     }
@@ -44,7 +45,7 @@ public class PetsControllerTests : BaseControllerTests
     public async Task GetManyAsync_WithDefaultData_ReturnsAsExpected(int pageIndex, int expectedPageSize)
     {
         // Act
-        var result = await HttpClient.GetFromJsonAsync<PaginatedList<Pet>>(
+        var result = await HttpClient.GetFromJsonAsync<PaginatedList<PetDto>>(
             $"/v1/pets?pageIndex={pageIndex}&pageSize={20}", JsonOptions
         );
 
@@ -59,10 +60,10 @@ public class PetsControllerTests : BaseControllerTests
     public async Task GetOneAsync_WhenPetExists_ReturnsAsExpected()
     {
         // Arrange
-        var expectedPet = DbContext.Pets.First();
+        var expectedPet = Mapper.Map<PetDto>(DbContext.Pets.First());
 
         // Act
-        var actualPet = await HttpClient.GetFromJsonAsync<Pet>(
+        var actualPet = await HttpClient.GetFromJsonAsync<PetDto>(
             $"/v1/pets/{expectedPet.Id}", JsonOptions
         );
 
@@ -71,8 +72,7 @@ public class PetsControllerTests : BaseControllerTests
             .NotBeNull().And
             .BeEquivalentTo(expectedPet, c => c
                 .ExcludingBaseFields()
-                .ExcludingOwnershipFields()
-                .Excluding(m => m.Vaccinations));
+                .ExcludingOwnershipFields());
     }
 
     [Fact]
@@ -94,7 +94,7 @@ public class PetsControllerTests : BaseControllerTests
     public async Task AddOneAsync_WithValidFields_AddsAsExpected()
     {
         // Arrange
-        var pet = new Pet
+        var pet = new PetDto
         {
             Name = "Ravena",
             PetType = PetType.Dog
@@ -110,9 +110,10 @@ public class PetsControllerTests : BaseControllerTests
             .NotBeNull().And
             .Be201Created().And
             .BeAs(pet, c => c
-                .ExcludingBaseFields());
+                .ExcludingBaseFields()
+                .ExcludingOwnershipFields());
 
-        pet = await response.Content.ReadFromJsonAsync<Pet>(JsonOptions);
+        pet = await response.Content.ReadFromJsonAsync<PetDto>(JsonOptions);
 
         var afterCount = await DbContext.Pets.CountAsync();
         afterCount.Should().Be(beforeCount + 1);
@@ -122,7 +123,7 @@ public class PetsControllerTests : BaseControllerTests
 
     [Theory]
     [MemberData(nameof(MemberData_Pets_And_ValidationErrors))]
-    public async Task AddOneAsync_WithInvalidData_DoesntAdd(Pet pet, string[] expectedErrors)
+    public async Task AddOneAsync_WithInvalidData_DoesntAdd(PetDto pet, string[] expectedErrors)
     {
         // Arrange
         var beforeCount = await DbContext.Pets.CountAsync();
@@ -152,8 +153,7 @@ public class PetsControllerTests : BaseControllerTests
     public async Task UpdateOneAsync_WithValidData_UpdatesAsExpected()
     {
         // Arrange
-        var pet = DbContext.Pets.First();
-        pet.Vaccinations = null;
+        var pet = Mapper.Map<PetDto>(DbContext.Pets.AsNoTracking().First());
         pet.Name = "Updated";
 
         // Act
@@ -167,7 +167,7 @@ public class PetsControllerTests : BaseControllerTests
                 .ExcludingBaseFields()
                 .ExcludingOwnershipFields());
 
-        pet = DbContext.Pets.First(m => m.Id == pet.Id);
+        pet = Mapper.Map<PetDto>(DbContext.Pets.AsNoTracking().First(m => m.Id == pet.Id));
         pet.Name.Should().Be("Updated");
     }
 
@@ -192,7 +192,7 @@ public class PetsControllerTests : BaseControllerTests
 
     [Theory]
     [MemberData(nameof(MemberData_Pets_And_ValidationErrors))]
-    public async Task UpdateOneAsync_WithInvalidData_DoesntUpdate(Pet pet, string[] expectedErrors)
+    public async Task UpdateOneAsync_WithInvalidData_DoesntUpdate(PetDto pet, string[] expectedErrors)
     {
         // Assert
         await DbContext.Pets.AddAsync(new Pet

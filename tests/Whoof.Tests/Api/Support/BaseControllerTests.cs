@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Whoof.Infrastructure.Persistence;
 using Whoof.Tests.Data;
@@ -26,6 +27,7 @@ public abstract class BaseControllerTests : IDisposable
         HttpClient = factory.CreateClient();
         ServiceScope = factory.Services.CreateScope();
         DbContext = ServiceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+        Mapper = ServiceScope.ServiceProvider.GetRequiredService<IMapper>();
         
         InitializeDatabase();
     }
@@ -35,6 +37,7 @@ public abstract class BaseControllerTests : IDisposable
     protected HttpClient HttpClient { get; }
     protected IServiceScope ServiceScope { get; }
     protected AppDbContext DbContext { get; }
+    protected IMapper Mapper { get; }
     protected IServiceProvider ServiceProvider => ServiceScope.ServiceProvider;
 
     private void InitializeDatabase()
