@@ -14,9 +14,9 @@ public class SortAdapter : ISortAdapter
     public IQueryable<TEntity> ApplySortExpressions<TEntity>(IQueryable<TEntity> queryable,
         ICollection<SortExpression>? sortExpressions)
     {
-        return sortExpressions == null || sortExpressions.Any() is false
-            ? OrderByAsc(queryable, "Id")
-            : ApplySortExpressionsInternal(queryable, sortExpressions);
+        return sortExpressions != null && sortExpressions.Any()
+            ? ApplySortExpressionsInternal(queryable, sortExpressions)
+            : OrderByAsc(queryable, "Id");
     }
 
     private static IQueryable<TEntity> ApplySortExpressionsInternal<TEntity>(IQueryable<TEntity> queryable,
