@@ -8,13 +8,20 @@ whoof-aspnetcore
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=graduenz_whoof-aspnetcore&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=graduenz_whoof-aspnetcore)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=graduenz_whoof-aspnetcore&metric=coverage)](https://sonarcloud.io/summary/new_code?id=graduenz_whoof-aspnetcore)
 
-## Description
+![Whoof Logo](docs/logo_dark.png#gh-dark-mode-only)
+![Whoof Logo](docs/logo_light.png#gh-light-mode-only)
 
-Implementation of [Whoof API](https://gui.rdnz.dev/_/labs/whoof-api) using ASP.NET Core.
+## TL;DR:
+
+This project is a simple REST API to control pet vaccination built with ASP.NET Core / C#. It's purpose is to demonstrate and get hands-on experience with some concepts and tools like Auth0, Loki, Grafana, GitHub Actions, SonarCloud, and more.
+
+You can read more about the Whoof API project here: https://gui.rdnz.dev/_/labs/whoof-api.
 
 ## Swagger
 
 https://whoof-api.cr.rdnz.dev/swagger/index.html
+
+> ⚠️ This public Swagger doc is likely to be unacessible once the API Gateway is set up, with a proper documentation.
 
 ## Features
 
@@ -66,6 +73,7 @@ This is a simple todo list only to remember what needs to be done.
 - [x] CD with CapRover's webhook
 - [x] Logging
 - [x] Launch
+- [ ] Switch to SonarCloud GitHub Action
 - [ ] API Gateway
 - [ ] Public docs
 - [ ] Adapt [ASP.NET Core Integration Tests](https://gui.rdnz.dev/_/.net-engineering/asp.net-core-integration-tests) page to project changes
