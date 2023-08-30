@@ -8,8 +8,8 @@ whoof-aspnetcore
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=graduenz_whoof-aspnetcore&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=graduenz_whoof-aspnetcore)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=graduenz_whoof-aspnetcore&metric=coverage)](https://sonarcloud.io/summary/new_code?id=graduenz_whoof-aspnetcore)
 
-![Whoof Logo](docs/logo_dark.png#gh-dark-mode-only)
-![Whoof Logo](docs/logo_light.png#gh-light-mode-only)
+<!-- ![Whoof Logo](docs/logo_dark.png#gh-dark-mode-only)
+![Whoof Logo](docs/logo_light.png#gh-light-mode-only) -->
 
 ## TL;DR:
 
