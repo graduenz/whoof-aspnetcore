@@ -30,12 +30,11 @@ jobs:
         with:
           args: >
             -Dsonar.organization=graduenz
-            -Dsonar.projectKey=whoof-aspnetcore
+            -Dsonar.projectKey=graduenz_whoof-aspnetcore
             -Dsonar.branch.name=${{ github.ref }}
             -Dsonar.cs.opencover.reportsPaths=**/*/coverage.opencover.xml
             -Dsonar.cs.vstest.reportsPaths=**/*/*.trx
             -Dsonar.exclusions=samples/**/*.cs,src/common/Whoof.Migrations/**/*.*
-            -Dsonar.verbose=true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
