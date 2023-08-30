@@ -73,7 +73,7 @@ This is a simple todo list only to remember what needs to be done.
 - [x] CD with CapRover's webhook
 - [x] Logging
 - [x] Launch
-- [ ] Switch to SonarCloud GitHub Action
+- [x] Switch to SonarCloud GitHub Action
 - [ ] API Gateway
 - [ ] Public docs
 - [ ] Adapt [ASP.NET Core Integration Tests](https://gui.rdnz.dev/_/.net-engineering/asp.net-core-integration-tests) page to project changes
