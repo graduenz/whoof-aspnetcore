@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whoof.Infrastructure", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whoof.Migrations", "src\common\Whoof.Migrations\Whoof.Migrations.csproj", "{EC0B1F15-60A6-484D-8FA4-FABA2F8741F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whoof.Yarp", "src\apps\Whoof.Yarp\Whoof.Yarp.csproj", "{D6F70246-7DA5-45A9-80BD-5C489AF6388D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,7 @@ Global
 		{854ABA0A-0EA3-42DF-9EBD-1D37149A0697} = {822DA631-C15E-426E-A22F-638688DE7D48}
 		{587257FC-44FF-41AD-9554-A1CAF02DE6C4} = {822DA631-C15E-426E-A22F-638688DE7D48}
 		{EC0B1F15-60A6-484D-8FA4-FABA2F8741F0} = {822DA631-C15E-426E-A22F-638688DE7D48}
+		{D6F70246-7DA5-45A9-80BD-5C489AF6388D} = {73716B62-8D1F-40F6-95B1-3A0551DE62D2}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{66D1D95D-2D58-4068-8194-E0AFA3C76BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -60,5 +63,9 @@ Global
 		{EC0B1F15-60A6-484D-8FA4-FABA2F8741F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC0B1F15-60A6-484D-8FA4-FABA2F8741F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC0B1F15-60A6-484D-8FA4-FABA2F8741F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6F70246-7DA5-45A9-80BD-5C489AF6388D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F70246-7DA5-45A9-80BD-5C489AF6388D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6F70246-7DA5-45A9-80BD-5C489AF6388D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6F70246-7DA5-45A9-80BD-5C489AF6388D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
