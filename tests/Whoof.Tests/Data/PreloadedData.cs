@@ -123,7 +123,7 @@ public static class PreloadedData
             for (var j = 0; j < numVaccinations; j++)
             {
                 var vaccine = vaccines[random.Next(vaccines.Count)];
-                var appliedAt = DateTimeOffset.UtcNow.AddDays(-random.Next(30, 365));
+                var appliedAt = TestDateTimeOffset.UtcNow.AddDays(-random.Next(30, 365));
 
                 var petVaccination = new PetVaccination
                 {
