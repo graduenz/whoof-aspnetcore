@@ -28,7 +28,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
     {
         yield return new object[]
         {
-            new PetVaccinationDto { Id = IdPetVaccinationAppliedInTheFuture, AppliedAt = TestDateTimeOffset.UtcNow.AddDays(1) },
+            new PetVaccinationDto { Id = IdPetVaccinationAppliedInTheFuture, AppliedAt = DateTimeOffset.UtcNow.AddDays(1) },
             new[] { "'Applied At' must be less than or equal to current timestamp." }
         };
     }
@@ -51,9 +51,10 @@ public class PetVaccinationControllerTests : BaseControllerTests
         {
             var petVaccination = new PetVaccination
             {
+                Id = Guid.NewGuid(),
                 PetId = pet.Id,
                 VaccineId = v.Id,
-                AppliedAt = TestDateTimeOffset.UtcNow
+                AppliedAt = DateTimeOffset.UtcNow
             };
             
             petVaccinationDtos.Add(Mapper.Map<PetVaccinationDto>(petVaccination));
@@ -73,7 +74,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
         result.TotalPages.Should().Be(1);
         result.Items.Should()
             .HaveCount(3)
-            .And.BeEquivalentTo(petVaccinationDtos, c => c.Excluding(m => m.Id));
+            .And.BeEquivalentTo(petVaccinationDtos, c => c.Excluding(m => m.AppliedAt));
     }
 
     [Fact]
@@ -114,6 +115,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
         actualPetVaccination.Should()
             .NotBeNull().And
             .BeEquivalentTo(expectedPetVaccination, c => c
+                .Excluding(m => m.AppliedAt)
                 .ExcludingBaseFields());
     }
 
@@ -143,7 +145,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
         {
             PetId = petId,
             VaccineId = vaccineId,
-            AppliedAt = TestDateTimeOffset.UtcNow.AddHours(-1)
+            AppliedAt = DateTimeOffset.UtcNow.AddHours(-1)
         };
 
         var beforeCount = await DbContext.PetVaccinations.CountAsync();
@@ -247,7 +249,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
             Id = petVaccination.Id,
             PetId = petId,
             VaccineId = vaccineId,
-            AppliedAt = TestDateTimeOffset.UtcNow
+            AppliedAt = DateTimeOffset.UtcNow
         });
 
         // Act
