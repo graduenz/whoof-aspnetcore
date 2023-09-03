@@ -69,7 +69,7 @@ builder.Services
     .AddSwaggerExamplesFromAssemblies(
         typeof(Program).Assembly,
         typeof(FilterAdapter).Assembly,
-        typeof(BaseReadDto).Assembly,
+        typeof(BaseDto).Assembly,
         typeof(BaseEntity).Assembly)
     .AddInfrastructure(builder.Configuration)
     .AddApi(builder.Configuration, builder.Environment);
