@@ -10,7 +10,7 @@ using Whoof.Domain.Enums;
 using Whoof.Tests.Api.Support;
 using Whoof.Tests.Extensions;
 
-namespace Whoof.Tests.Api;
+namespace Whoof.Tests.Api.Controllers;
 
 public class PetsControllerTests : BaseControllerTests
 {
@@ -27,14 +27,14 @@ public class PetsControllerTests : BaseControllerTests
     {
         yield return new object[]
         {
-            new PetDto { Id = IdPetWithEmptyName, Name = "", PetType = PetType.Capybara },
+            new PetDto { Id = IdPetWithEmptyName, Name = "", PetType = "Capybara" },
             new[] { "'Name' must not be empty." }
         };
 
         yield return new object[]
         {
-            new PetDto { Id = IdPetWithUnspecifiedType, Name = "Qwerty", PetType = PetType.Unspecified },
-            new[] { "'Pet Type' must not be equal to 'Unspecified'." }
+            new PetDto { Id = IdPetWithUnspecifiedType, Name = "Qwerty", PetType = "Invalid" },
+            new[] { "'Pet Type' has a range of values which does not include 'Invalid'." }
         };
     }
 
@@ -97,7 +97,7 @@ public class PetsControllerTests : BaseControllerTests
         var pet = new PetDto
         {
             Name = "Ravena",
-            PetType = PetType.Dog
+            PetType = "Dog"
         };
 
         var beforeCount = await DbContext.Pets.CountAsync();

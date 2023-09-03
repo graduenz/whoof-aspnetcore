@@ -9,6 +9,6 @@ public class PetDtoValidator : AbstractValidator<PetDto>
     public PetDtoValidator()
     {
         RuleFor(m => m.Name).NotEmpty();
-        RuleFor(m => m.PetType).NotEqual(PetType.Unspecified);
+        RuleFor(m => m.PetType).IsEnumName(typeof(PetType));
     }
 }

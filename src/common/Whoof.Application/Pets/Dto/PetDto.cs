@@ -7,4 +7,5 @@ public class PetDto : BaseOwnedDto
 {
     public string? Name { get; set; }
     public PetType PetType { get; set; }
+    public string? PetType { get; set; }
 }

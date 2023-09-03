@@ -12,7 +12,7 @@ using Whoof.Infrastructure.PetVaccination;
 using Whoof.Tests.Api.Support;
 using Whoof.Tests.Extensions;
 
-namespace Whoof.Tests.Api;
+namespace Whoof.Tests.Api.Controllers;
 
 public class PetVaccinationControllerTests : BaseControllerTests
 {
