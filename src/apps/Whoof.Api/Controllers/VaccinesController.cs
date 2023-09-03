@@ -14,7 +14,7 @@ using Whoof.Infrastructure.Vaccines;
 namespace Whoof.Api.Controllers;
 
 [ApiController]
-[Route("v1/[controller]")]
+[Route("v1/vaccines")]
 public class VaccinesController : BaseCrudController<VaccineDto, Vaccine, CreateVaccineCommand, UpdateVaccineCommand,
     DeleteVaccineCommand, GetVaccineByIdQuery, GetVaccineListQuery, VaccineSearch>
 {

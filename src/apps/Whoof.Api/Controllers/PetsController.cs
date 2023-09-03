@@ -15,7 +15,7 @@ using Whoof.Infrastructure.Pets;
 namespace Whoof.Api.Controllers;
 
 [ApiController]
-[Route("v1/[controller]")]
+[Route("v1/pets")]
 [Authorize]
 public class PetsController : BaseCrudController<PetDto, Pet, CreatePetCommand, UpdatePetCommand, DeletePetCommand,
     GetPetByIdQuery, GetPetListQuery, PetSearch>

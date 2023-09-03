@@ -15,7 +15,7 @@ using Whoof.Infrastructure.PetVaccination;
 namespace Whoof.Api.Controllers;
 
 [ApiController]
-[Route("v1/[controller]")]
+[Route("v1/pet-vaccination")]
 public class PetVaccinationController : BaseCrudController<PetVaccinationDto, PetVaccination,
     CreatePetVaccinationCommand, UpdatePetVaccinationCommand, DeletePetVaccinationCommand, GetPetVaccinationByIdQuery,
     GetPetVaccinationListQuery, PetVaccinationSearch>
