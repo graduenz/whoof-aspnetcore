@@ -1,10 +1,15 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using Swashbuckle.AspNetCore.Filters;
 using Whoof.Api;
+using Whoof.Application.Common.Dto;
+using Whoof.Domain.Common;
 using Whoof.Infrastructure;
+using Whoof.Infrastructure.Adapters;
 using Whoof.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,10 +29,18 @@ Log.Logger.Information("Initializing {App}", Assembly.GetExecutingAssembly().Get
 builder.Services.AddControllers()
     .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
 
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
 {
+    c.ExampleFilters();
+    
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Whoof.Api.xml"));
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Whoof.Infrastructure.xml"));
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Whoof.Application.xml"));
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Whoof.Domain.xml"));
+
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using the Bearer scheme",
@@ -52,6 +65,11 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services
     .AddHttpContextAccessor()
+    .AddSwaggerExamplesFromAssemblies(
+        typeof(Program).Assembly,
+        typeof(FilterAdapter).Assembly,
+        typeof(BaseReadDto).Assembly,
+        typeof(BaseEntity).Assembly)
     .AddInfrastructure(builder.Configuration)
     .AddApi(builder.Configuration, builder.Environment);
 
