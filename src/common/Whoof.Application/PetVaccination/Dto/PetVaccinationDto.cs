@@ -3,7 +3,7 @@ using Whoof.Application.Common.Dto;
 
 namespace Whoof.Application.PetVaccination.Dto;
 
-public abstract class PetVaccinationDto : BaseDto
+public class PetVaccinationDto : BaseDto
 {
     /// <summary>
     /// The ID of the pet

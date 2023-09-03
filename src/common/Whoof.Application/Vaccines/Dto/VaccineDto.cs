@@ -3,7 +3,7 @@ using Whoof.Application.Common.Dto;
 
 namespace Whoof.Application.Vaccines.Dto;
 
-public abstract class VaccineDto : BaseDto
+public class VaccineDto : BaseDto
 {
     /// <summary>
     /// The name of the vaccine
