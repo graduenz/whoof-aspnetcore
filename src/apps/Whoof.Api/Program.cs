@@ -36,6 +36,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.ExampleFilters();
+    c.EnableAnnotations();
     
     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Whoof.Api.xml"));
     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Whoof.Infrastructure.xml"));
