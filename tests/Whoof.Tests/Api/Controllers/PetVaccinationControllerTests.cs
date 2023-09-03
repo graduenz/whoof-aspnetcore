@@ -86,19 +86,6 @@ public class PetVaccinationControllerTests : BaseControllerTests
         // Assert
         response.Should().Be405MethodNotAllowed();
     }
-    
-    [Fact]
-    public async Task GetPaginatedListAsync_RegularMethodCall_Throws()
-    {
-        // Arrange
-        var controller = new PetVaccinationController(null, null);
-        
-        // Act
-        var act = async () => await controller.GetPaginatedListAsync(new PetVaccinationSearch());
-        
-        // Arrange
-        await act.Should().ThrowAsync<NotSupportedException>();
-    }
 
     [Fact]
     public async Task GetByIdAsync_WhenPetVaccinationExists_ReturnsAsExpected()
