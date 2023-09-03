@@ -2,8 +2,11 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Whoof.Api.Common;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Filters;
 using Whoof.Api.Common.Controllers;
+using Whoof.Application.Common.Models;
+using Whoof.Application.Common.Models.Examples;
 using Whoof.Application.PetVaccination;
 using Whoof.Application.PetVaccination.Dto;
 using Whoof.Domain.Entities;
@@ -21,14 +24,50 @@ public class PetVaccinationController : BaseCrudController<PetVaccinationDto, Pe
         : base(mediator, validator)
     {
     }
+    
+    [HttpGet("{id:guid}")]
+    [SwaggerResponse(200, Type = typeof(PetVaccinationDto))]
+    [SwaggerResponse(404, Type = typeof(ServiceError))]
+    [SwaggerResponseExample(404, typeof(ServiceErrorNotFoundExampleProvider))]
+    [SwaggerResponse(500, Type = typeof(ServiceError))]
+    [SwaggerResponseExample(500, typeof(ServiceErrorInternalServerErrorExampleProvider))]
+    public Task<IActionResult> GetByIdAsync([FromRoute, SwaggerParameter("Pet vaccination ID")] Guid id) =>
+        GetByIdInternalAsync(id);
 
-    [NonAction]
-    public override Task<IActionResult> GetPaginatedListAsync(PetVaccinationSearch request)
-    {
-        throw new NotSupportedException();
-    }
+    [HttpPost]
+    [SwaggerResponse(201, Type = typeof(PetVaccinationDto))]
+    [SwaggerResponse(400, Type = typeof(ServiceError))]
+    [SwaggerResponseExample(400, typeof(ServiceErrorValidationExampleProvider))]
+    [SwaggerResponse(500, Type = typeof(ServiceError))]
+    [SwaggerResponseExample(500, typeof(ServiceErrorInternalServerErrorExampleProvider))]
+    public virtual Task<IActionResult> PostAsync([FromBody] PetVaccinationDto model) =>
+        PostInternalAsync(model);
+
+    [HttpPut("{id:guid}")]
+    [SwaggerResponse(200, Type = typeof(PetVaccinationDto))]
+    [SwaggerResponse(400, Type = typeof(ServiceError))]
+    [SwaggerResponseExample(400, typeof(ServiceErrorValidationExampleProvider))]
+    [SwaggerResponse(404, Type = typeof(ServiceError))]
+    [SwaggerResponseExample(404, typeof(ServiceErrorNotFoundExampleProvider))]
+    [SwaggerResponse(500, Type = typeof(ServiceError))]
+    [SwaggerResponseExample(500, typeof(ServiceErrorInternalServerErrorExampleProvider))]
+    public virtual Task<IActionResult> PutAsync([FromRoute, SwaggerParameter("Pet vaccination ID")] Guid id,
+        [FromBody] PetVaccinationDto model) =>
+        PutInternalAsync(id, model);
+
+    [HttpDelete("{id:guid}")]
+    [SwaggerResponse(200, Type = typeof(PetVaccinationDto))]
+    [SwaggerResponse(404, Type = typeof(ServiceError))]
+    [SwaggerResponseExample(404, typeof(ServiceErrorNotFoundExampleProvider))]
+    [SwaggerResponse(500, Type = typeof(ServiceError))]
+    [SwaggerResponseExample(500, typeof(ServiceErrorInternalServerErrorExampleProvider))]
+    public virtual Task<IActionResult> DeleteAsync([FromRoute, SwaggerParameter("Pet vaccination ID")] Guid id) =>
+        DeleteInternalAsync(id);
 
     [HttpGet("pet/{petId:guid}")]
+    [SwaggerResponse(200, Type = typeof(PaginatedList<PetVaccinationDto>))]
+    [SwaggerResponse(500, Type = typeof(ServiceError))]
+    [SwaggerResponseExample(500, typeof(ServiceErrorInternalServerErrorExampleProvider))]
     public async Task<IActionResult> GetPaginatedListByPetAsync([FromRoute] Guid petId,
         [FromQuery] PetVaccinationSearch request)
     {
