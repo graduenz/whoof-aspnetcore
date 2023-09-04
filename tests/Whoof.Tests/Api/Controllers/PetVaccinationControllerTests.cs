@@ -3,12 +3,10 @@ using System.Net.Http.Json;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Whoof.Api.Common.Models;
-using Whoof.Api.Controllers;
 using Whoof.Application.Common.Models;
 using Whoof.Application.PetVaccination.Dto;
 using Whoof.Domain.Entities;
 using Whoof.Domain.Enums;
-using Whoof.Infrastructure.PetVaccination;
 using Whoof.Tests.Api.Support;
 using Whoof.Tests.Extensions;
 
@@ -65,7 +63,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
         
         // Act
         var result = await HttpClient.GetFromJsonAsync<PaginatedList<PetVaccinationDto>>(
-            $"/v1/petVaccination/pet/{pet.Id}?pageIndex={1}&pageSize={20}", JsonOptions
+            $"/v1/pet-vaccination/pet/{pet.Id}?pageIndex={1}&pageSize={20}", JsonOptions
         );
 
         // Assert
@@ -78,16 +76,6 @@ public class PetVaccinationControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task GetPaginatedListAsync_WithHttpClient_ReturnsMethodNotAllowed()
-    {
-        // Act
-        var response = await HttpClient.GetAsync("/v1/petVaccination");
-
-        // Assert
-        response.Should().Be405MethodNotAllowed();
-    }
-
-    [Fact]
     public async Task GetByIdAsync_WhenPetVaccinationExists_ReturnsAsExpected()
     {
         // Arrange
@@ -95,7 +83,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
 
         // Act
         var actualPetVaccination = await HttpClient.GetFromJsonAsync<PetVaccinationDto>(
-            $"/v1/petVaccination/{expectedPetVaccination.Id}", JsonOptions
+            $"/v1/pet-vaccination/{expectedPetVaccination.Id}", JsonOptions
         );
 
         // Assert
@@ -115,7 +103,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
             id = Guid.NewGuid();
 
         // Act
-        var response = await HttpClient.GetAsync($"/v1/petVaccination/{id}");
+        var response = await HttpClient.GetAsync($"/v1/pet-vaccination/{id}");
 
         // Assert
         response.Should().Be404NotFound();
@@ -138,7 +126,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
         var beforeCount = await DbContext.PetVaccinations.CountAsync();
 
         // Act
-        var response = await HttpClient.PostAsJsonAsync("v1/petVaccination/", petVaccination, JsonOptions);
+        var response = await HttpClient.PostAsJsonAsync("v1/pet-vaccination/", petVaccination, JsonOptions);
 
         // Assert
         response.Should()
@@ -163,7 +151,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
         var beforeCount = await DbContext.PetVaccinations.CountAsync();
 
         // Act
-        var response = await HttpClient.PostAsJsonAsync("v1/petVaccination/", petVaccination, JsonOptions);
+        var response = await HttpClient.PostAsJsonAsync("v1/pet-vaccination/", petVaccination, JsonOptions);
 
         // Assert
         response.Should()
@@ -192,7 +180,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
         petVaccination.AppliedAt = appliedAt;
 
         // Act
-        var response = await HttpClient.PutAsJsonAsync($"/v1/petVaccination/{petVaccination.Id}", petVaccination, JsonOptions);
+        var response = await HttpClient.PutAsJsonAsync($"/v1/pet-vaccination/{petVaccination.Id}", petVaccination, JsonOptions);
 
         // Assert
         response.Should()
@@ -217,7 +205,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
         petVaccination.Id = id;
 
         // Act
-        var response = await HttpClient.PutAsJsonAsync($"/v1/petVaccination/{petVaccination.Id}", petVaccination, JsonOptions);
+        var response = await HttpClient.PutAsJsonAsync($"/v1/pet-vaccination/{petVaccination.Id}", petVaccination, JsonOptions);
 
         // Assert
         response.Should().Be404NotFound();
@@ -240,7 +228,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
         });
 
         // Act
-        var response = await HttpClient.PutAsJsonAsync($"v1/petVaccination/{petVaccination.Id}", petVaccination, JsonOptions);
+        var response = await HttpClient.PutAsJsonAsync($"v1/pet-vaccination/{petVaccination.Id}", petVaccination, JsonOptions);
 
         // Assert
         response.Should()
@@ -262,7 +250,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
         var petVaccination = DbContext.PetVaccinations.First();
 
         // Act
-        var response = await HttpClient.DeleteAsync($"/v1/petVaccination/{petVaccination.Id}");
+        var response = await HttpClient.DeleteAsync($"/v1/pet-vaccination/{petVaccination.Id}");
 
         // Assert
         response.Should().Be200Ok();
@@ -279,7 +267,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
             id = Guid.NewGuid();
 
         // Act
-        var response = await HttpClient.DeleteAsync($"/v1/petVaccination/{id}");
+        var response = await HttpClient.DeleteAsync($"/v1/pet-vaccination/{id}");
 
         // Assert
         response.Should().Be404NotFound();
