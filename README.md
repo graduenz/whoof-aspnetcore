@@ -17,11 +17,9 @@ This project is a simple REST API to control pet vaccination built with ASP.NET 
 
 You can read more about the Whoof API project here: https://gui.rdnz.dev/_/labs/whoof-api.
 
-## Swagger
+## Documentation
 
-https://whoof-api.cr.rdnz.dev/swagger/index.html
-
-> ⚠️ This public Swagger doc is likely to be unacessible once the API Gateway is set up, with a proper documentation.
+Everything is at https://gui.rdnz.dev/whoof
 
 ## Features
 
@@ -75,4 +73,4 @@ This is a simple todo list only to remember what needs to be done.
 - [x] Launch
 - [x] Adapt [ASP.NET Core Integration Tests](https://gui.rdnz.dev/_/.net-engineering/asp.net-core-integration-tests) page to project changes
 - [x] API Gateway
-- [ ] Public docs
+- [x] Public docs
