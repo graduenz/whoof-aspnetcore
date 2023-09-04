@@ -10,7 +10,7 @@ using Whoof.Domain.Enums;
 using Whoof.Tests.Api.Support;
 using Whoof.Tests.Extensions;
 
-namespace Whoof.Tests.Api;
+namespace Whoof.Tests.Api.Controllers;
 
 public class VaccinesControllerTests : BaseControllerTests
 {
@@ -28,19 +28,19 @@ public class VaccinesControllerTests : BaseControllerTests
     {
         yield return new object[]
         {
-            new VaccineDto { Id = IdVaccineWithEmptyName, Name = "", PetType = PetType.Capybara, Duration = 1 },
+            new VaccineDto { Id = IdVaccineWithEmptyName, Name = "", PetType = "Capybara", Duration = 1 },
             new[] { "'Name' must not be empty." }
         };
 
         yield return new object[]
         {
-            new VaccineDto { Id = IdVaccineWithUnspecifiedType, Name = "Qwerty", PetType = PetType.Unspecified, Duration = 365 },
-            new[] { "'Pet Type' must not be equal to 'Unspecified'." }
+            new VaccineDto { Id = IdVaccineWithUnspecifiedType, Name = "Qwerty", PetType = "Invalid", Duration = 365 },
+            new[] { "'Pet Type' has a range of values which does not include 'Invalid'." }
         };
 
         yield return new object[]
         {
-            new VaccineDto { Id = IdVaccineWithNoDuration, Name = "Doggo", PetType = PetType.Dog, Duration = 0 },
+            new VaccineDto { Id = IdVaccineWithNoDuration, Name = "Doggo", PetType = "Dog", Duration = 0 },
             new[] { "'Duration' must be greater than or equal to '1'." }
         };
     }
@@ -102,7 +102,7 @@ public class VaccinesControllerTests : BaseControllerTests
         var vaccine = new VaccineDto
         {
             Name = "Vaccine",
-            PetType = PetType.Dog,
+            PetType = "Dog",
             Duration = 1
         };
 

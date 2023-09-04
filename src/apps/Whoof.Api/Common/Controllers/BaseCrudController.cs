@@ -26,8 +26,8 @@ public abstract class BaseCrudController
     where TGetListQuery : BaseGetListQuery<TDto, TEntity>, new()
     where TSearch : BaseSearch<TEntity>
 {
-    public IMediator Mediator { get; }
-    public IValidator<TDto> Validator { get; }
+    protected IMediator Mediator { get; }
+    protected IValidator<TDto> Validator { get; }
 
     protected BaseCrudController(IMediator mediator, IValidator<TDto> validator)
     {
@@ -35,9 +35,7 @@ public abstract class BaseCrudController
         Validator = validator;
     }
 
-    [HttpGet("{id:guid}")]
-    [Authorize]
-    public virtual async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
+    protected async Task<IActionResult> GetByIdInternalAsync([FromRoute] Guid id)
     {
         var query = new TGetByIdQuery
         {
@@ -50,9 +48,7 @@ public abstract class BaseCrudController
             : HandleServiceError(result.Error);
     }
 
-    [HttpGet]
-    [Authorize]
-    public virtual async Task<IActionResult> GetPaginatedListAsync([FromQuery] TSearch request)
+    protected async Task<IActionResult> GetPaginatedListInternalAsync([FromQuery] TSearch request)
     {
         if (request.PageSize > 50)
             request.PageSize = 50;
@@ -71,9 +67,7 @@ public abstract class BaseCrudController
             : HandleServiceError(result.Error);
     }
 
-    [HttpPost]
-    [Authorize]
-    public virtual async Task<IActionResult> PostAsync([FromBody] TDto model)
+    protected async Task<IActionResult> PostInternalAsync([FromBody] TDto model)
     {
         var validationResult = await Validator.ValidateAsync(model);
         if (!validationResult.IsValid)
@@ -90,9 +84,7 @@ public abstract class BaseCrudController
             : HandleServiceError(result.Error);
     }
 
-    [HttpPut("{id:guid}")]
-    [Authorize]
-    public virtual async Task<IActionResult> PutAsync([FromRoute] Guid id, [FromBody] TDto model)
+    protected async Task<IActionResult> PutInternalAsync([FromRoute] Guid id, [FromBody] TDto model)
     {
         var validationResult = await Validator.ValidateAsync(model);
         if (!validationResult.IsValid)
@@ -110,9 +102,7 @@ public abstract class BaseCrudController
             : HandleServiceError(result.Error);
     }
 
-    [HttpDelete("{id:guid}")]
-    [Authorize]
-    public virtual async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
+    protected async Task<IActionResult> DeleteInternalAsync([FromRoute] Guid id)
     {
         var command = new TDeleteCommand
         {

@@ -9,7 +9,7 @@ public class VaccineDtoValidator : AbstractValidator<VaccineDto>
     public VaccineDtoValidator()
     {
         RuleFor(m => m.Name).NotEmpty();
-        RuleFor(m => m.PetType).NotEqual(PetType.Unspecified);
+        RuleFor(m => m.PetType).IsEnumName(typeof(PetType));
         RuleFor(m => m.Duration).GreaterThanOrEqualTo(TimeSpan.FromDays(1).Days);
     }
 }
