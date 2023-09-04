@@ -15,11 +15,9 @@ whoof-aspnetcore
 
 This project is a simple REST API to control pet vaccination built with ASP.NET Core / C#. It's purpose is to demonstrate and get hands-on experience with some concepts and tools like Auth0, Loki, Grafana, GitHub Actions, SonarCloud, and more.
 
-You can read more about the Whoof API project here: https://gui.rdnz.dev/_/labs/whoof-api.
-
 ## Documentation
 
-Everything is at https://gui.rdnz.dev/whoof
+The official docs are public at https://gui.rdnz.dev/whoof; it has all details and other links related to the project.
 
 ## Features
 
