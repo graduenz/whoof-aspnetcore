@@ -25,6 +25,7 @@ public class PetsController : BaseCrudController<PetDto, Pet, CreatePetCommand, 
     }
 
     [HttpGet("{id:guid}")]
+    [SwaggerOperation(Summary = "Gets a single pet by ID")]
     [SwaggerResponse(200, Type = typeof(PetDto))]
     [SwaggerResponse(404, Type = typeof(ServiceError))]
     [SwaggerResponseExample(404, typeof(ServiceErrorNotFoundExampleProvider))]
@@ -34,6 +35,7 @@ public class PetsController : BaseCrudController<PetDto, Pet, CreatePetCommand, 
         GetByIdInternalAsync(id);
 
     [HttpGet]
+    [SwaggerOperation(Summary = "Gets a paginated list of pets")]
     [SwaggerResponse(200, Type = typeof(PaginatedList<PetDto>))]
     [SwaggerResponse(500, Type = typeof(ServiceError))]
     [SwaggerResponseExample(500, typeof(ServiceErrorInternalServerErrorExampleProvider))]
@@ -41,6 +43,7 @@ public class PetsController : BaseCrudController<PetDto, Pet, CreatePetCommand, 
         GetPaginatedListInternalAsync(request);
 
     [HttpPost]
+    [SwaggerOperation(Summary = "Creates a new pet")]
     [SwaggerResponse(201, Type = typeof(PetDto))]
     [SwaggerResponse(400, Type = typeof(ServiceError))]
     [SwaggerResponseExample(400, typeof(ServiceErrorValidationExampleProvider))]
@@ -50,6 +53,7 @@ public class PetsController : BaseCrudController<PetDto, Pet, CreatePetCommand, 
         PostInternalAsync(model);
 
     [HttpPut("{id:guid}")]
+    [SwaggerOperation(Summary = "Updates an existing pet")]
     [SwaggerResponse(200, Type = typeof(PetDto))]
     [SwaggerResponse(400, Type = typeof(ServiceError))]
     [SwaggerResponseExample(400, typeof(ServiceErrorValidationExampleProvider))]
@@ -61,6 +65,7 @@ public class PetsController : BaseCrudController<PetDto, Pet, CreatePetCommand, 
         [FromBody] PetDto model) =>
         PutInternalAsync(id, model);
 
+    [SwaggerOperation(Summary = "Deletes an existing pet")]
     [HttpDelete("{id:guid}")]
     [SwaggerResponse(200, Type = typeof(PetDto))]
     [SwaggerResponse(404, Type = typeof(ServiceError))]

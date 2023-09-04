@@ -26,6 +26,7 @@ public class PetVaccinationController : BaseCrudController<PetVaccinationDto, Pe
     }
     
     [HttpGet("{id:guid}")]
+    [SwaggerOperation(Summary = "Gets a single pet vaccination by ID")]
     [SwaggerResponse(200, Type = typeof(PetVaccinationDto))]
     [SwaggerResponse(404, Type = typeof(ServiceError))]
     [SwaggerResponseExample(404, typeof(ServiceErrorNotFoundExampleProvider))]
@@ -35,6 +36,7 @@ public class PetVaccinationController : BaseCrudController<PetVaccinationDto, Pe
         GetByIdInternalAsync(id);
 
     [HttpPost]
+    [SwaggerOperation(Summary = "Creates a new pet vaccination")]
     [SwaggerResponse(201, Type = typeof(PetVaccinationDto))]
     [SwaggerResponse(400, Type = typeof(ServiceError))]
     [SwaggerResponseExample(400, typeof(ServiceErrorValidationExampleProvider))]
@@ -44,6 +46,7 @@ public class PetVaccinationController : BaseCrudController<PetVaccinationDto, Pe
         PostInternalAsync(model);
 
     [HttpPut("{id:guid}")]
+    [SwaggerOperation(Summary = "Updates an existing pet vaccination")]
     [SwaggerResponse(200, Type = typeof(PetVaccinationDto))]
     [SwaggerResponse(400, Type = typeof(ServiceError))]
     [SwaggerResponseExample(400, typeof(ServiceErrorValidationExampleProvider))]
@@ -56,6 +59,7 @@ public class PetVaccinationController : BaseCrudController<PetVaccinationDto, Pe
         PutInternalAsync(id, model);
 
     [HttpDelete("{id:guid}")]
+    [SwaggerOperation(Summary = "Deletes an existing pet vaccination")]
     [SwaggerResponse(200, Type = typeof(PetVaccinationDto))]
     [SwaggerResponse(404, Type = typeof(ServiceError))]
     [SwaggerResponseExample(404, typeof(ServiceErrorNotFoundExampleProvider))]
@@ -65,6 +69,7 @@ public class PetVaccinationController : BaseCrudController<PetVaccinationDto, Pe
         DeleteInternalAsync(id);
 
     [HttpGet("pet/{petId:guid}")]
+    [SwaggerOperation(Summary = "Gets a paginated list of vaccinations of a specific pet")]
     [SwaggerResponse(200, Type = typeof(PaginatedList<PetVaccinationDto>))]
     [SwaggerResponse(500, Type = typeof(ServiceError))]
     [SwaggerResponseExample(500, typeof(ServiceErrorInternalServerErrorExampleProvider))]

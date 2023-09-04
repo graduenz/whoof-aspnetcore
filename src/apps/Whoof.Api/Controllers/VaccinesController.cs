@@ -23,6 +23,7 @@ public class VaccinesController : BaseCrudController<VaccineDto, Vaccine, Create
     }
     
     [HttpGet("{id:guid}")]
+    [SwaggerOperation(Summary = "Gets a single vaccine by ID")]
     [SwaggerResponse(200, Type = typeof(VaccineDto))]
     [SwaggerResponse(404, Type = typeof(ServiceError))]
     [SwaggerResponseExample(404, typeof(ServiceErrorNotFoundExampleProvider))]
@@ -32,6 +33,7 @@ public class VaccinesController : BaseCrudController<VaccineDto, Vaccine, Create
         GetByIdInternalAsync(id);
 
     [HttpGet]
+    [SwaggerOperation(Summary = "Gets a paginated list of vaccines")]
     [SwaggerResponse(200, Type = typeof(PaginatedList<VaccineDto>))]
     [SwaggerResponse(500, Type = typeof(ServiceError))]
     [SwaggerResponseExample(500, typeof(ServiceErrorInternalServerErrorExampleProvider))]
@@ -39,6 +41,7 @@ public class VaccinesController : BaseCrudController<VaccineDto, Vaccine, Create
         GetPaginatedListInternalAsync(request);
 
     [HttpPost]
+    [SwaggerOperation(Summary = "Creates a new vaccine")]
     [SwaggerResponse(201, Type = typeof(VaccineDto))]
     [SwaggerResponse(400, Type = typeof(ServiceError))]
     [SwaggerResponseExample(400, typeof(ServiceErrorValidationExampleProvider))]
@@ -48,6 +51,7 @@ public class VaccinesController : BaseCrudController<VaccineDto, Vaccine, Create
         PostInternalAsync(model);
 
     [HttpPut("{id:guid}")]
+    [SwaggerOperation(Summary = "Updates an existing vaccine")]
     [SwaggerResponse(200, Type = typeof(VaccineDto))]
     [SwaggerResponse(400, Type = typeof(ServiceError))]
     [SwaggerResponseExample(400, typeof(ServiceErrorValidationExampleProvider))]
@@ -60,6 +64,7 @@ public class VaccinesController : BaseCrudController<VaccineDto, Vaccine, Create
         PutInternalAsync(id, model);
 
     [HttpDelete("{id:guid}")]
+    [SwaggerOperation(Summary = "Deletes an existing vaccine")]
     [SwaggerResponse(200, Type = typeof(VaccineDto))]
     [SwaggerResponse(404, Type = typeof(ServiceError))]
     [SwaggerResponseExample(404, typeof(ServiceErrorNotFoundExampleProvider))]
