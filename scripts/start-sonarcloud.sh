@@ -23,7 +23,7 @@ echo "### Beginning sonarscanner..."
 dotnet sonarscanner begin \
     /k:"graduenz_whoof-aspnetcore" \
     /o:"graduenz" \
-    /d:sonar.login="$SONAR_TOKEN" \
+    /d:sonar.token="$SONAR_TOKEN" \
     /v:"$PROJECT_VERSION" \
     /d:sonar.host.url="https://sonarcloud.io" \
     /d:sonar.cs.opencover.reportsPaths="**/*/coverage.opencover.xml" \
@@ -32,6 +32,7 @@ dotnet sonarscanner begin \
 
 echo "### Building project..."
 dotnet build
+./scripts/start-tests.sh
 
 # Now we can collect the results 👍
-dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
+dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
