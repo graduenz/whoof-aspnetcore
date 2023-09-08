@@ -22,16 +22,10 @@ jobs:
       - name: Install SonarCloud scanner
         run: |
           dotnet tool install --global dotnet-sonarscanner
-      - name: Docker Compose
-        uses: isbang/compose-action@v1.5.0
-        with:
-          down-flags: "--volumes"
-      - name: Integration tests
-        run: |
-          ./scripts/start-tests.sh
       - name: SonarCloud scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          docker-compose up -d
           ./scripts/start-sonarcloud.sh ${{ secrets.SONAR_TOKEN }} ${{ github.sha }}

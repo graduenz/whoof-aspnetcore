@@ -32,6 +32,7 @@ dotnet sonarscanner begin \
 
 echo "### Building project..."
 dotnet build
+./scripts/start-tests.sh
 
 # Now we can collect the results 👍
 dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
