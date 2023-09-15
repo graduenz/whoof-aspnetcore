@@ -17,7 +17,7 @@ This project is a simple REST API to control pet vaccination built with ASP.NET 
 
 ## Documentation
 
-The official docs are public at https://gui.rdnz.dev/whoof; it has all details and other links related to the project.
+The official docs are public at https://whoof-docs.rdnz.dev/; it has all details and other links related to the project.
 
 ## Features
 
