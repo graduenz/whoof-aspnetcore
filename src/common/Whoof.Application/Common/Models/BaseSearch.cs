@@ -1,9 +1,10 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
+using Whoof.Domain.Common;
 
 namespace Whoof.Application.Common.Models;
 
-public abstract class BaseSearch<TEntity> where TEntity : class
+public abstract class BaseSearch<TEntity> where TEntity : BaseEntity
 {
     /// <summary>
     /// Page index, starts from 1
@@ -39,6 +40,21 @@ public abstract class BaseSearch<TEntity> where TEntity : class
     /// <example>%foo%</example>
     [BindProperty(Name = "search")]
     public string? Search { get; set; }
+    
+    /// <summary>
+    /// Optional list of IDs to filter the records
+    /// </summary>
+    [BindProperty(Name = "ids")]
+    public ICollection<Guid>? Ids { get; set; }
 
-    public abstract IEnumerable<Expression<Func<TEntity, bool>>>? GetFilters();
+    public IEnumerable<Expression<Func<TEntity, bool>>> GetFilters()
+    {
+        if (Ids?.Count > 0)
+            yield return e => Ids.Contains(e.Id);
+        
+        foreach (var filter in GetEntitySpecificFilters())
+            yield return filter;
+    }
+
+    protected abstract IEnumerable<Expression<Func<TEntity, bool>>> GetEntitySpecificFilters();
 }

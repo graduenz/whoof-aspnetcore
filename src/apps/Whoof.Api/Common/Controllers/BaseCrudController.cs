@@ -3,13 +3,13 @@ using System.Linq.Expressions;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Whoof.Api.Common.Models;
 using Whoof.Application.Common.Commands;
 using Whoof.Application.Common.Dto;
 using Whoof.Application.Common.Models;
 using Whoof.Application.Common.Queries;
+using Whoof.Domain.Common;
 
 namespace Whoof.Api.Common.Controllers;
 
@@ -18,7 +18,7 @@ public abstract class BaseCrudController
     <TDto, TEntity, TCreateCommand, TUpdateCommand, TDeleteCommand, TGetByIdQuery, TGetListQuery, TSearch>
     : ControllerBase
     where TDto : BaseDto
-    where TEntity : class
+    where TEntity : BaseEntity
     where TCreateCommand : BaseCreateCommand<TDto>, new()
     where TUpdateCommand : BaseUpdateCommand<TDto>, new()
     where TDeleteCommand : BaseDeleteCommand<TDto>, new()
@@ -34,7 +34,7 @@ public abstract class BaseCrudController
         Mediator = mediator;
         Validator = validator;
     }
-
+    
     protected async Task<IActionResult> GetByIdInternalAsync([FromRoute] Guid id)
     {
         var query = new TGetByIdQuery
@@ -50,12 +50,12 @@ public abstract class BaseCrudController
 
     protected async Task<IActionResult> GetPaginatedListInternalAsync([FromQuery] TSearch request)
     {
-        if (request.PageSize > 50)
-            request.PageSize = 50;
+        if (request.PageSize > 100)
+            request.PageSize = 100;
 
         var query = new TGetListQuery
         {
-            Filters = request.GetFilters()?.ToList() ?? new List<Expression<Func<TEntity, bool>>>(),
+            Filters = request.GetFilters()?.ToArray() ?? Array.Empty<Expression<Func<TEntity, bool>>>(),
             SortExpressions = BuildSortExpressions(request),
             PageIndex = request.PageIndex,
             PageSize = request.PageSize

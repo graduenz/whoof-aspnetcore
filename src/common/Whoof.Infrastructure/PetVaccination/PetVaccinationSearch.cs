@@ -36,7 +36,7 @@ public class PetVaccinationSearch : BaseSearch<Domain.Entities.PetVaccination>
     [BindProperty(Name = "appliedAtMax")]
     public DateTimeOffset? AppliedAtMax { get; set; }
     
-    public override IEnumerable<Expression<Func<Domain.Entities.PetVaccination, bool>>>? GetFilters()
+    protected override IEnumerable<Expression<Func<Domain.Entities.PetVaccination, bool>>> GetEntitySpecificFilters()
     {
         if (PetId.HasValue)
             yield return a => a.PetId == PetId.Value;

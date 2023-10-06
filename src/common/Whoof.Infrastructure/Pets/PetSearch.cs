@@ -23,7 +23,7 @@ public class PetSearch : BaseSearch<Pet>
     [BindProperty(Name = "petType")]
     public PetType? PetType { get; set; }
     
-    public override IEnumerable<Expression<Func<Pet, bool>>>? GetFilters()
+    protected override IEnumerable<Expression<Func<Pet, bool>>> GetEntitySpecificFilters()
     {
         if (!string.IsNullOrEmpty(Search))
             yield return a => EF.Functions.ILike(a.Name!, Search);

@@ -44,7 +44,7 @@ public class VaccineSearch : BaseSearch<Vaccine>
     [BindProperty(Name = "durationMax")]
     public int? DurationMax { get; set; }
     
-    public override IEnumerable<Expression<Func<Vaccine, bool>>>? GetFilters()
+    protected override IEnumerable<Expression<Func<Vaccine, bool>>> GetEntitySpecificFilters()
     {
         if (!string.IsNullOrEmpty(Search))
             yield return a => EF.Functions.ILike(a.Name!, Search)

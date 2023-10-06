@@ -5,5 +5,5 @@ namespace Whoof.Application.Common.Interfaces;
 public interface IFilterAdapter
 {
     IQueryable<TEntity> ApplyFilterExpressions<TEntity>(IQueryable<TEntity> queryable,
-        IList<Expression<Func<TEntity, bool>>>? filters);
+        ICollection<Expression<Func<TEntity, bool>>>? filters);
 }

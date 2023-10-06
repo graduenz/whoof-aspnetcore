@@ -6,7 +6,7 @@ namespace Whoof.Infrastructure.Adapters;
 public class FilterAdapter : IFilterAdapter
 {
     public IQueryable<TEntity> ApplyFilterExpressions<TEntity>(IQueryable<TEntity> queryable,
-        IList<Expression<Func<TEntity, bool>>>? filters)
+        ICollection<Expression<Func<TEntity, bool>>>? filters)
     {
         if (filters == null || filters.Count == 0)
             return queryable;
