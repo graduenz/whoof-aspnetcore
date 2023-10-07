@@ -38,6 +38,8 @@ public abstract class
         var queryable = DbContext.Set<TEntity>()
             .AsNoTracking();
 
+        queryable = await CustomizeQueryAsync(queryable);
+
         queryable = await FilterQueryAsync(request, queryable, userId, cancellationToken);
         
         var count = await GetTotalRecordsAsync(request, queryable, userId, cancellationToken);
@@ -49,6 +51,11 @@ public abstract class
 
         var list = new PaginatedList<TDto>(items, count, request.PageIndex, request.PageSize);
         return ServiceResult.Success(list);
+    }
+
+    protected virtual Task<IQueryable<TEntity>> CustomizeQueryAsync(IQueryable<TEntity> queryable)
+    {
+        return Task.FromResult(queryable);
     }
 
     protected virtual Task<int> GetTotalRecordsAsync(TQuery request, IQueryable<TEntity> queryable, string userId,

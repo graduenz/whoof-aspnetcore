@@ -39,10 +39,16 @@ public abstract class BaseGetByIdQueryHandler<TQuery, TDto, TEntity> : IRequestH
         return ServiceResult.Success(dto);
     }
     
+    protected virtual Task<IQueryable<TEntity>> CustomizeQueryAsync(IQueryable<TEntity> queryable)
+    {
+        return Task.FromResult(queryable);
+    }
+    
     protected virtual async Task<TEntity?> GetEntityAsync(TQuery request, string userId,
         CancellationToken cancellationToken)
     {
-        return await DbContext.Set<TEntity>().FirstOrDefaultAsync(
+        var query = await CustomizeQueryAsync(DbContext.Set<TEntity>());
+        return await query.FirstOrDefaultAsync(
             m => m.Id == request.Id,
             cancellationToken);
     }
