@@ -21,6 +21,11 @@ builder.Services.AddRateLimiter(options =>
 
 var app = builder.Build();
 
+app.UseCors(c => c
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowAnyOrigin());
+
 app.UseRateLimiter();
 
 app.MapReverseProxy();
