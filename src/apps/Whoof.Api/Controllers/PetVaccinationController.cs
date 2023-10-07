@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -35,6 +34,14 @@ public class PetVaccinationController : BaseCrudController<PetVaccinationDto, Pe
     public Task<IActionResult> GetByIdAsync([FromRoute, SwaggerParameter("Pet vaccination ID")] Guid id) =>
         GetByIdInternalAsync(id);
 
+    [HttpGet]
+    [SwaggerOperation(Summary = "Gets a paginated list of pet vaccinations")]
+    [SwaggerResponse(200, Type = typeof(PaginatedList<PetVaccinationDto>))]
+    [SwaggerResponse(500, Type = typeof(ServiceError))]
+    [SwaggerResponseExample(500, typeof(ServiceErrorInternalServerErrorExampleProvider))]
+    public virtual Task<IActionResult> GetPaginatedListAsync([FromQuery] PetVaccinationSearch request) =>
+        GetPaginatedListInternalAsync(request);
+
     [HttpPost]
     [SwaggerOperation(Summary = "Creates a new pet vaccination")]
     [SwaggerResponse(201, Type = typeof(PetVaccinationDto))]
@@ -67,32 +74,4 @@ public class PetVaccinationController : BaseCrudController<PetVaccinationDto, Pe
     [SwaggerResponseExample(500, typeof(ServiceErrorInternalServerErrorExampleProvider))]
     public virtual Task<IActionResult> DeleteAsync([FromRoute, SwaggerParameter("Pet vaccination ID")] Guid id) =>
         DeleteInternalAsync(id);
-
-    [HttpGet("pet/{petId:guid}")]
-    [SwaggerOperation(Summary = "Gets a paginated list of vaccinations of a specific pet")]
-    [SwaggerResponse(200, Type = typeof(PaginatedList<PetVaccinationDto>))]
-    [SwaggerResponse(500, Type = typeof(ServiceError))]
-    [SwaggerResponseExample(500, typeof(ServiceErrorInternalServerErrorExampleProvider))]
-    public async Task<IActionResult> GetPaginatedListByPetAsync([FromRoute] Guid petId,
-        [FromQuery] PetVaccinationSearch request)
-    {
-        var filters = (request.GetFilters() ?? Array.Empty<Expression<Func<PetVaccination, bool>>>()).ToList();
-        filters.Add(m => m.PetId == petId);
-
-        if (request.PageSize > 50)
-            request.PageSize = 50;
-
-        var query = new GetPetVaccinationListQuery
-        {
-            Filters = filters,
-            SortExpressions = BuildSortExpressions(request),
-            PageIndex = request.PageIndex,
-            PageSize = request.PageSize
-        };
-
-        var result = await Mediator.Send(query);
-        return result.Succeeded
-            ? Ok(result.Data)
-            : HandleServiceError(result.Error);
-    }
 }
