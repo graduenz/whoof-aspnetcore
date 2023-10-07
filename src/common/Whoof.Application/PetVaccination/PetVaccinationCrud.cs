@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Whoof.Application.Common.Commands;
 using Whoof.Application.Common.Interfaces;
 using Whoof.Application.Common.Queries;
@@ -56,6 +57,14 @@ public class GetPetVaccinationByIdQueryHandler : BaseGetByIdQueryHandler<GetPetV
         ICurrentUserService currentUserService) : base(dbContext, mapper, currentUserService)
     {
     }
+
+    protected override Task<IQueryable<Domain.Entities.PetVaccination>> CustomizeQueryAsync(
+        IQueryable<Domain.Entities.PetVaccination> queryable)
+    {
+        return base.CustomizeQueryAsync(queryable
+            .Include(m => m.Pet)
+            .Include(m => m.Vaccine));
+    }
 }
 
 public class GetPetVaccinationListQuery : BaseGetListQuery<PetVaccinationDto, Domain.Entities.PetVaccination>
@@ -69,5 +78,13 @@ public class GetPetVaccinationListQueryHandler : BaseGetListQueryHandler<GetPetV
         ISortAdapter sortAdapter, ICurrentUserService currentUserService) : base(dbContext, mapper, filterAdapter,
         sortAdapter, currentUserService)
     {
+    }
+
+    protected override Task<IQueryable<Domain.Entities.PetVaccination>> CustomizeQueryAsync(
+        IQueryable<Domain.Entities.PetVaccination> queryable)
+    {
+        return base.CustomizeQueryAsync(queryable
+            .Include(m => m.Pet)
+            .Include(m => m.Vaccine));
     }
 }
