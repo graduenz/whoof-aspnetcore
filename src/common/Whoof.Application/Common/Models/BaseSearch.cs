@@ -18,7 +18,7 @@ public abstract class BaseSearch<TEntity> where TEntity : BaseEntity
     /// </summary>
     /// <example>20</example>
     [BindProperty(Name = "pageSize")]
-    public int PageSize { get; set; } = 20;
+    public int PageSize { get; set; } = 100;
     
     /// <summary>
     /// Field used for sorting
