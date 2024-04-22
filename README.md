@@ -69,6 +69,6 @@ This is a simple todo list only to remember what needs to be done.
 - [x] CD with CapRover's webhook
 - [x] Logging
 - [x] Launch
-- [x] Adapt [ASP.NET Core Integration Tests](https://gui.rdnz.dev/_/.net-engineering/asp.net-core-integration-tests) page to project changes
+- [x] Adapt [ASP.NET Core Integration Tests](https://gui.rdnz.dev/.net-engineering/asp.net-core-integration-tests) page to project changes
 - [x] API Gateway
 - [x] Public docs
