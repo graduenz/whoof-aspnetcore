@@ -12,11 +12,11 @@ public class CurrentUserService : ICurrentUserService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public ClaimsPrincipal CurrentUser => _httpContextAccessor.HttpContext?.User ?? throw new Exception("Current user is not set");
+    public ClaimsPrincipal CurrentUser => _httpContextAccessor.HttpContext?.User ?? throw new InvalidOperationException("Current user is not set");
     
     public string GetCurrentUserUniqueId()
     {
         var claim = CurrentUser.FindFirst("unique_id");
-        return claim?.Value ?? throw new Exception("Missing unique_id claim in JWT");
+        return claim?.Value ?? throw new InvalidOperationException("Missing unique_id claim in JWT");
     }
 }

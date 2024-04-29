@@ -22,7 +22,7 @@ public static class DependencyInjectionExtensions
                 b => b.MigrationsAssembly("Whoof.Migrations"))
         )
         .AddScoped<IAppDbContext>(provider =>
-            provider.GetService<AppDbContext>() ?? throw new Exception($"Couldn't resolve {nameof(AppDbContext)}"))
+            provider.GetService<AppDbContext>() ?? throw new InvalidOperationException($"Couldn't resolve {nameof(AppDbContext)}"))
         .AddValidatorsFromAssemblyContaining(typeof(PetDtoValidator))
         .AddAdapters()
         .AddMediatR()
