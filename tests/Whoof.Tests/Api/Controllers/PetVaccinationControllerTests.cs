@@ -43,7 +43,7 @@ public class PetVaccinationControllerTests : BaseControllerTests
         
         // Act
         var result = await HttpClient.GetFromJsonAsync<PaginatedList<PetVaccinationDto>>(
-            $"/v1/pets?pageIndex=1&pageSize=20&petId={petId}", JsonOptions
+            $"/v1/pet-vaccination?pageIndex=1&pageSize=20&petId={petId}", JsonOptions
         );
 
         // Assert
