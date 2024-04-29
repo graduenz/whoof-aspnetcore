@@ -126,7 +126,7 @@ public abstract class BaseCrudController
 
     protected virtual IActionResult HandleServiceError(ServiceError? error)
     {
-        ArgumentNullException.ThrowIfNull(error, nameof(error));
+        ArgumentNullException.ThrowIfNull(error);
 
         var model = new ErrorResult
         {
