@@ -30,6 +30,28 @@ public class PetVaccinationControllerTests : BaseControllerTests
             new[] { "'Applied At' must be less than or equal to current timestamp." }
         };
     }
+    
+    [Fact]
+    public async Task GetPaginatedListAsync_WithDefaultData_ReturnsAsExpected()
+    {
+        // Arrange
+        var petId = (await DbContext.Pets.FirstAsync()).Id;
+        var expectedPetVaccinationIds = await DbContext.PetVaccinations
+            .Where(m => m.PetId == petId)
+            .Select(m => m.Id)
+            .ToListAsync();
+        
+        // Act
+        var result = await HttpClient.GetFromJsonAsync<PaginatedList<PetVaccinationDto>>(
+            $"/v1/pets?pageIndex=1&pageSize=20&petId={petId}", JsonOptions
+        );
+
+        // Assert
+        result.Should().NotBeNull();
+        result!.PageIndex.Should().Be(1);
+        result.TotalPages.Should().Be(1);
+        result.Items.Should().HaveCount(expectedPetVaccinationIds.Count);
+    }
 
     [Fact]
     public async Task GetByIdAsync_WhenPetVaccinationExists_ReturnsAsExpected()
