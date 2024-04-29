@@ -116,7 +116,7 @@ public static class PreloadedData
                 OwnerId = "test@whoof.api"
             };
 
-            var numVaccinations = random.Next(1, 5);
+            var numVaccinations = random.Next(2, 5);
             for (var j = 0; j < numVaccinations; j++)
             {
                 var vaccine = vaccines[random.Next(vaccines.Count)];

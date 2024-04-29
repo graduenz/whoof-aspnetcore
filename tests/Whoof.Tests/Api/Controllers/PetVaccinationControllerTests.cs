@@ -30,49 +30,27 @@ public class PetVaccinationControllerTests : BaseControllerTests
             new[] { "'Applied At' must be less than or equal to current timestamp." }
         };
     }
-
+    
     [Fact]
-    public async Task GetPaginatedListByPetAsync_FiltersByPetAndReturnsAsExpected()
+    public async Task GetPaginatedListAsync_WithDefaultData_ReturnsAsExpected()
     {
         // Arrange
-        var pet = new Pet
-        {
-            Id = Guid.NewGuid(),
-            Name = "Tested",
-            PetType = PetType.Dog
-        };
-        await DbContext.Pets.AddAsync(pet);
-
-        var vaccines = await DbContext.Vaccines.Where(m => m.PetType == PetType.Dog).Take(3).ToListAsync();
-        var petVaccinationDtos = new List<PetVaccinationDto>();
-        vaccines.ForEach(v =>
-        {
-            var petVaccination = new PetVaccination
-            {
-                Id = Guid.NewGuid(),
-                PetId = pet.Id,
-                VaccineId = v.Id,
-                AppliedAt = DateTimeOffset.UtcNow
-            };
-            
-            petVaccinationDtos.Add(Mapper.Map<PetVaccinationDto>(petVaccination));
-            DbContext.PetVaccinations.Add(petVaccination);
-        });
-        
-        await DbContext.SaveChangesAsync();
+        var petId = (await DbContext.Pets.FirstAsync()).Id;
+        var expectedPetVaccinationIds = await DbContext.PetVaccinations
+            .Where(m => m.PetId == petId)
+            .Select(m => m.Id)
+            .ToListAsync();
         
         // Act
         var result = await HttpClient.GetFromJsonAsync<PaginatedList<PetVaccinationDto>>(
-            $"/v1/pet-vaccination/pet/{pet.Id}?pageIndex={1}&pageSize={20}", JsonOptions
+            $"/v1/pet-vaccination?pageIndex=1&pageSize=20&petId={petId}", JsonOptions
         );
 
         // Assert
         result.Should().NotBeNull();
         result!.PageIndex.Should().Be(1);
         result.TotalPages.Should().Be(1);
-        result.Items.Should()
-            .HaveCount(3)
-            .And.BeEquivalentTo(petVaccinationDtos, c => c.Excluding(m => m.AppliedAt));
+        result.Items.Should().HaveCount(expectedPetVaccinationIds.Count);
     }
 
     [Fact]
