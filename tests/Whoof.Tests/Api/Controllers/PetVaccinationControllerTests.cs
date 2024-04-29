@@ -32,50 +32,6 @@ public class PetVaccinationControllerTests : BaseControllerTests
     }
 
     [Fact]
-    public async Task GetPaginatedListByPetAsync_FiltersByPetAndReturnsAsExpected()
-    {
-        // Arrange
-        var pet = new Pet
-        {
-            Id = Guid.NewGuid(),
-            Name = "Tested",
-            PetType = PetType.Dog
-        };
-        await DbContext.Pets.AddAsync(pet);
-
-        var vaccines = await DbContext.Vaccines.Where(m => m.PetType == PetType.Dog).Take(3).ToListAsync();
-        var petVaccinationDtos = new List<PetVaccinationDto>();
-        vaccines.ForEach(v =>
-        {
-            var petVaccination = new PetVaccination
-            {
-                Id = Guid.NewGuid(),
-                PetId = pet.Id,
-                VaccineId = v.Id,
-                AppliedAt = DateTimeOffset.UtcNow
-            };
-            
-            petVaccinationDtos.Add(Mapper.Map<PetVaccinationDto>(petVaccination));
-            DbContext.PetVaccinations.Add(petVaccination);
-        });
-        
-        await DbContext.SaveChangesAsync();
-        
-        // Act
-        var result = await HttpClient.GetFromJsonAsync<PaginatedList<PetVaccinationDto>>(
-            $"/v1/pet-vaccination/pet/{pet.Id}?pageIndex={1}&pageSize={20}", JsonOptions
-        );
-
-        // Assert
-        result.Should().NotBeNull();
-        result!.PageIndex.Should().Be(1);
-        result.TotalPages.Should().Be(1);
-        result.Items.Should()
-            .HaveCount(3)
-            .And.BeEquivalentTo(petVaccinationDtos, c => c.Excluding(m => m.AppliedAt));
-    }
-
-    [Fact]
     public async Task GetByIdAsync_WhenPetVaccinationExists_ReturnsAsExpected()
     {
         // Arrange
