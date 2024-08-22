@@ -70,6 +70,9 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration["ConnectionStrings:AppDbContext"]!);
+
 builder.Services
     .AddHttpContextAccessor()
     .AddSwaggerExamplesFromAssemblies(
@@ -90,6 +93,8 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
     Log.Logger.Information("Database has been successfully migrated");
 }
+
+app.MapHealthChecks("/health");
 
 app.UseSwagger();
 app.UseSwaggerUI();
